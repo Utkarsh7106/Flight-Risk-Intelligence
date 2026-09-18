@@ -1,0 +1,19 @@
+# Web framework. starlette pinned >=1.0.1 for CVE-2026-48710.
+fastapi==0.141.1
+starlette>=1.0.1
+uvicorn[standard]==0.53.0
+
+# Database
+sqlalchemy==2.0.54
+alembic==1.20.0
+psycopg[binary]==3.3.5
+
+# Config / validation
+pydantic==2.13.5
+pydantic-settings==2.15.0
+email-validator==2.3.0
+
+# Auth
+pyjwt==2.14.0
+bcrypt==5.0.0
+python-multipart==0.0.32
