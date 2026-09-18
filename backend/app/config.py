@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -12,6 +14,26 @@ class Settings(BaseSettings):
     jwt_expire_minutes: int = 30
 
     cors_origins: str = ""
+
+    # Deployment is cross-origin: frontend on Vercel/Netlify, backend on
+    # Render/Railway. That requires SameSite=None + Secure cookies, which in
+    # turn require HTTPS. "local" opts into a relaxed dev-only cookie mode
+    # (SameSite=Lax, no Secure) so login works over plain http://localhost.
+    # Defaults to "production" so a deploy that forgets to set ENVIRONMENT
+    # gets the strict/safe behavior, not a silent downgrade.
+    environment: Literal["local", "production"] = "production"
+
+    @property
+    def is_local(self) -> bool:
+        return self.environment == "local"
+
+    @property
+    def cookie_samesite(self) -> str:
+        return "lax" if self.is_local else "none"
+
+    @property
+    def cookie_secure(self) -> bool:
+        return not self.is_local
 
     @property
     def cors_origin_list(self) -> list[str]:

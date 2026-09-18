@@ -79,6 +79,13 @@ Module 3 trains a real model with SHAP explainability, but on a separate, larger
 - **Queries**: parameterized everywhere (SQLAlchemy Core/ORM bound parameters). Any sort/filter query param is validated against a hardcoded column allow-list — never `getattr()`-based dynamic sorting.
 - **CORS**: explicit origin allowlist from config, never a wildcard. `allow_origins=["*"]` is never combined with `allow_credentials=True`.
 
+## Deployment
+
+Frontend and backend deploy to **different origins**, not a same-origin reverse proxy: frontend on Vercel or Netlify, backend on Render or Railway. This makes the auth cookie genuinely cross-site, which changes the cookie/CORS requirements from what a same-origin local setup would need:
+
+- **Cookie**: `SameSite=None; Secure; HttpOnly`. `Secure` requires HTTPS, which Render/Railway provide by default — so this is just what production gets, no extra config. `Settings.environment` (`app/config.py`) defaults to `"production"`, which selects this. Setting `ENVIRONMENT=local` selects a relaxed dev-only pair instead (`SameSite=Lax`, no `Secure`) so login works over plain `http://localhost` without a local TLS cert. This flag must never be set on a deployed build — the default is the strict/safe behavior specifically so a forgotten env var fails safe, not open.
+- **CORS**: explicit origin allowlist read from `CORS_ORIGINS` (config, not hardcoded), `allow_credentials=True`, never a wildcard — enforced by `Settings.cors_origin_list` raising if `"*"` appears. Once the frontend's Vercel/Netlify URL is chosen, it goes in that env var on the backend host; it is not yet fixed in code anywhere.
+
 ## UI guardrails (for when frontend work starts)
 
 Single sidebar shell, no top navbar. Product name is "Flight Risk Intelligence" everywhere. HR gets an org-wide view; BU Heads get one shared template scoped by their login, not three hardcoded copies. Fixed layout for V1 — no drag/drop widget customization.

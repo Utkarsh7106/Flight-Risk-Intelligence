@@ -24,14 +24,17 @@ def login(payload: LoginRequest, response: Response, db: Annotated[Session, Depe
 
     token = create_access_token(subject=str(user.id), role=user.role, business_unit_id=user.business_unit_id)
 
-    # Secure requires HTTPS, with a browser exception for http://localhost —
-    # fine for local dev, but any non-localhost deployment must be HTTPS.
+    # Frontend and backend are deployed on different origins (Vercel/Netlify
+    # vs Render/Railway), so this cookie is cross-site and needs
+    # SameSite=None + Secure (which requires HTTPS) to be sent at all. The
+    # relaxed Lax/non-Secure pair below is only for ENVIRONMENT=local, never
+    # a deployed build — see app/config.py.
     response.set_cookie(
         key=ACCESS_TOKEN_COOKIE,
         value=token,
         httponly=True,
-        secure=True,
-        samesite="lax",
+        secure=settings.cookie_secure,
+        samesite=settings.cookie_samesite,
         max_age=settings.jwt_expire_minutes * 60,
     )
 
@@ -43,7 +46,14 @@ def login(payload: LoginRequest, response: Response, db: Annotated[Session, Depe
 
 @router.post("/logout")
 def logout(response: Response) -> dict[str, str]:
-    response.delete_cookie(ACCESS_TOKEN_COOKIE)
+    # Must match the attributes set_cookie used above, or some browsers
+    # won't recognize this as clearing the same cookie.
+    response.delete_cookie(
+        ACCESS_TOKEN_COOKIE,
+        httponly=True,
+        secure=settings.cookie_secure,
+        samesite=settings.cookie_samesite,
+    )
     return {"detail": "Logged out"}
 
 
