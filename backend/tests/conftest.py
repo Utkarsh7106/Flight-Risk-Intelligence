@@ -21,6 +21,17 @@ BU_HEAD_PASSWORD = "ChangeMe123!"
 BU_HEAD_BU_NAME = "Data Quark"
 OTHER_BU_NAME = "Business Function and Media"
 
+# One bu_head login per business unit — mirrors scripts/seed_reference_data.py's
+# TEST_ACCOUNTS exactly. Every BU is logged into for real over HTTP in
+# test_bu_head_accounts.py; there's no direct-RLS-session stand-in left.
+ALL_BU_HEADS: dict[str, tuple[str, str]] = {
+    "Data Quark": (BU_HEAD_EMAIL, BU_HEAD_PASSWORD),
+    "Business Function and Media": ("meenakshi.reddy@lsdigital-demo.com", "ChangeMe123!"),
+    "Enabling Functions": ("siddharth.agarwal@lsdigital-demo.com", "ChangeMe123!"),
+    "SP Creative": ("pooja.bhattacharya@lsdigital-demo.com", "ChangeMe123!"),
+    "UI/UX": ("aditya.choudhary@lsdigital-demo.com", "ChangeMe123!"),
+}
+
 
 @pytest.fixture(scope="session")
 def migrator_engine():
@@ -57,6 +68,42 @@ def hr_client(client: TestClient) -> TestClient:
 def bu_head_client() -> Generator[TestClient, None, None]:
     with TestClient(app) as c:
         yield _login(c, BU_HEAD_EMAIL, BU_HEAD_PASSWORD)
+
+
+@pytest.fixture()
+def all_bu_head_clients() -> Generator[dict[str, TestClient], None, None]:
+    """One logged-in TestClient per business unit, each its own instance
+    so the 5 cookie sessions never collide. Used to prove BU isolation
+    holds for every BU through a real HTTP login, not a subset.
+    """
+    with TestClient(app) as c1, TestClient(app) as c2, TestClient(app) as c3, \
+         TestClient(app) as c4, TestClient(app) as c5:
+        clients = [c1, c2, c3, c4, c5]
+        yield {
+            bu_name: _login(client, email, password)
+            for client, (bu_name, (email, password)) in zip(clients, ALL_BU_HEADS.items())
+        }
+
+
+@pytest.fixture()
+def one_employee_id_per_bu(migrator_session: Session) -> dict[str, int]:
+    """Ground truth for the all-5-BUs isolation test: one real employee id
+    per BU, read live from whatever's actually seeded (the illustrative
+    batch from scripts/seed_reference_data.py), not hardcoded ids. Asserts
+    all 5 BUs are represented so a missing seed fails loudly instead of
+    letting the isolation test pass vacuously on empty data.
+    """
+    rows = migrator_session.execute(
+        select(BusinessUnit.name, Employee.id).join(Employee, Employee.business_unit_id == BusinessUnit.id)
+    ).all()
+    result: dict[str, int] = {}
+    for bu_name, employee_id in rows:
+        result.setdefault(bu_name, employee_id)
+    assert set(result) == set(ALL_BU_HEADS), (
+        "expected illustrative seed employees in all 5 BUs — run: "
+        "cd backend && .venv/Scripts/python.exe scripts/seed_reference_data.py"
+    )
+    return result
 
 
 @pytest.fixture()

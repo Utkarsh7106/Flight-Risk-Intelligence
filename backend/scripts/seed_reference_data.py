@@ -80,6 +80,34 @@ TEST_ACCOUNTS = [
         "role": "bu_head",
         "business_unit_name": "Data Quark",
     },
+    {
+        "email": "meenakshi.reddy@lsdigital-demo.com",
+        "password": "ChangeMe123!",
+        "full_name": "Meenakshi Reddy",
+        "role": "bu_head",
+        "business_unit_name": "Business Function and Media",
+    },
+    {
+        "email": "siddharth.agarwal@lsdigital-demo.com",
+        "password": "ChangeMe123!",
+        "full_name": "Siddharth Agarwal",
+        "role": "bu_head",
+        "business_unit_name": "Enabling Functions",
+    },
+    {
+        "email": "pooja.bhattacharya@lsdigital-demo.com",
+        "password": "ChangeMe123!",
+        "full_name": "Pooja Bhattacharya",
+        "role": "bu_head",
+        "business_unit_name": "SP Creative",
+    },
+    {
+        "email": "aditya.choudhary@lsdigital-demo.com",
+        "password": "ChangeMe123!",
+        "full_name": "Aditya Choudhary",
+        "role": "bu_head",
+        "business_unit_name": "UI/UX",
+    },
 ]
 
 
