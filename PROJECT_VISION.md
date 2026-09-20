@@ -156,8 +156,18 @@ constraint). Don't "fix" this if you encounter it.
   typography, spacing, component patterns. Content (names, department
   labels) in these exports is placeholder/generic and must be entirely
   replaced with real data via the API — never copied as-is.
-- **Module 1 frontend: this is the current work.** See the task brief
-  for exact scope.
+- **Module 1 frontend: functionally complete.** React + Vite + TS.
+  Login (real API, no role toggle), auth context sourced from
+  `GET /auth/me`, single sidebar shell with Workforce Health/Risk
+  Analysis correctly shown as disabled "coming soon" entries, and the
+  Employee Directory (table + card views) wired to the real
+  `GET /employees` with its actual sort/filter/search surface. Verified
+  by actually logging in through the running app as HR and three
+  different BU Head accounts and checking each saw the correct,
+  correctly-scoped data — not just reading the code. See
+  `frontend/README.md` for the honestly-documented rough edges (no
+  `/business-units` endpoint yet, no employee detail page, no frontend
+  test suite yet).
 - **Not yet started:** Module 2 (Workforce Health Index scorecard +
   fairness audit), Module 3 (ML/SHAP demo), Module 4 (departure-event
   capture, exports), any deployment/hosting setup.

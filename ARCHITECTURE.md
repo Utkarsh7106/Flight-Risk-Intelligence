@@ -6,7 +6,7 @@ Proof-of-concept HR attrition dashboard for LS Digital. This document is a worki
 
 - **Backend**: FastAPI (Python 3.11+), SQLAlchemy 2.0, Alembic migrations, `psycopg` (v3) driver.
 - **Database**: PostgreSQL 16, Row-Level Security enabled on employee-related tables.
-- **Frontend** (not started yet): React + Vite.
+- **Frontend**: React 19 + Vite 8 + TypeScript, react-router-dom. CSS Modules on top of design tokens translated from `design/stitch/DESIGN.md` — no CSS framework/UI kit dependency.
 - **ML**: scikit-learn + SHAP (`TreeExplainer`) — Module 3 only. Module 2 is a hand-weighted scorecard, not a model.
 - **Charts**: Recharts.
 - **Auth**: JWT (HS256, 15-minute access tokens, no refresh tokens), stored in an httpOnly/Secure cookie.
@@ -38,6 +38,24 @@ backend/
     roles.sql                   # documents the fri_migrator / fri_app role split for RLS
   requirements.txt
   .env.example
+frontend/
+  src/
+    styles/                  # design tokens (tokens.css) translated from design/stitch/DESIGN.md
+    components/
+      ui/                     # reusable component library — Avatar, Badge, Card, Table, Button, form controls
+      layout/                  # AppShell, Sidebar (single sidebar, no top navbar — locked guardrail)
+      feedback/                 # full-page loading/error states
+    context/
+      AuthContext.tsx           # session state sourced from GET /auth/me, never from decoding the cookie
+    api/                        # typed fetch client (credentials:'include' only, no token storage)
+    routes/
+      ProtectedRoute.tsx         # gates authenticated routes
+    pages/
+      auth/                       # login screen
+      directory/                   # Employee Directory — table + card views
+  .env.example
+design/
+  stitch/                          # Stitch design exports: 9 screens + DESIGN.md (design-system doc)
 ```
 
 ## Org structure (authoritative — replaces any placeholder data)
@@ -86,9 +104,11 @@ Frontend and backend deploy to **different origins**, not a same-origin reverse 
 - **Cookie**: `SameSite=None; Secure; HttpOnly`. `Secure` requires HTTPS, which Render/Railway provide by default — so this is just what production gets, no extra config. `Settings.environment` (`app/config.py`) defaults to `"production"`, which selects this. Setting `ENVIRONMENT=local` selects a relaxed dev-only pair instead (`SameSite=Lax`, no `Secure`) so login works over plain `http://localhost` without a local TLS cert. This flag must never be set on a deployed build — the default is the strict/safe behavior specifically so a forgotten env var fails safe, not open.
 - **CORS**: explicit origin allowlist read from `CORS_ORIGINS` (config, not hardcoded), `allow_credentials=True`, never a wildcard — enforced by `Settings.cors_origin_list` raising if `"*"` appears. Once the frontend's Vercel/Netlify URL is chosen, it goes in that env var on the backend host; it is not yet fixed in code anywhere.
 
-## UI guardrails (for when frontend work starts)
+## UI guardrails
 
-Single sidebar shell, no top navbar. Product name is "Flight Risk Intelligence" everywhere. HR gets an org-wide view; BU Heads get one shared template scoped by their login, not three hardcoded copies. Fixed layout for V1 — no drag/drop widget customization.
+Single sidebar shell, no top navbar. Product name is "Flight Risk Intelligence" everywhere. HR gets an org-wide view; BU Heads get one shared template scoped by their login, not three hardcoded copies — the frontend's `useEmployeeDirectory` hook sends only the filters the user picked and renders back whatever the API returns; there is no client-side role/BU branching anywhere in it, by design (see `frontend/README.md`). Fixed layout for V1 — no drag/drop widget customization.
+
+The frontend never touches the auth token directly: it relies entirely on the httpOnly session cookie (`credentials: 'include'` on every request) and sources "who is logged in" from `GET /auth/me`, never from decoding the cookie client-side.
 
 ## Names
 
