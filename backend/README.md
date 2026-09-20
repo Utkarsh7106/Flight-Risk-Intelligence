@@ -28,6 +28,11 @@ Then `POST /auth/login` with one of the seeded test accounts (see
 `scripts/seed_reference_data.py` — not real credentials, replace before any
 non-local use) and `GET /auth/me` with the resulting cookie.
 
+The seed script also creates ~18 illustrative employee rows spread across
+all 5 business units, so `GET /employees` has something realistic to look
+at through `/docs` — not the eventual ~320-row baseline panel (see
+ARCHITECTURE.md).
+
 ## Why two DB roles
 
 The app connects as `fri_app`, a role with `NOBYPASSRLS` that is not the
