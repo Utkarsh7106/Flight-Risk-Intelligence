@@ -9,7 +9,7 @@ Proof-of-concept HR attrition dashboard for LS Digital. This document is a worki
 - **Frontend** (not started yet): React + Vite.
 - **ML**: scikit-learn + SHAP (`TreeExplainer`) — Module 3 only. Module 2 is a hand-weighted scorecard, not a model.
 - **Charts**: Recharts.
-- **Auth**: JWT (HS256, 30-minute access tokens, no refresh tokens), stored in an httpOnly/Secure cookie.
+- **Auth**: JWT (HS256, 15-minute access tokens, no refresh tokens), stored in an httpOnly/Secure cookie.
 - No Java, C, or their "sister languages" anywhere in the stack.
 - `starlette>=1.0.1` pinned (CVE-2026-48710) — see `backend/requirements.txt`.
 
@@ -74,7 +74,7 @@ Module 3 trains a real model with SHAP explainability, but on a separate, larger
 
 ## Security guardrails
 
-- **Auth**: JWT HS256, 30-minute expiry, no refresh tokens, httpOnly + Secure cookie — never localStorage.
+- **Auth**: JWT HS256, 15-minute expiry, no refresh tokens, httpOnly + Secure cookie — never localStorage. Logout clears the cookie client-side but does not revoke the token server-side (no denylist) — a copied/stolen token remains valid for up to 15 minutes after logout. This is an accepted tradeoff for internal office use on shared/unlocked machines, where the realistic risk is device access rather than token interception in transit; deliberately not building revocation for that threat model.
 - **Defense in depth**: an app-level role-scoping FastAPI dependency is the primary access control. Postgres Row-Level Security is a second, independent layer on `employee` and `departure_event` (see `backend/db/roles.sql`). The app connects as `fri_app`, a non-owner role with `NOBYPASSRLS`; migrations run as `fri_migrator`, the table owner. RLS policies read `current_setting('app.current_role', true)` / `current_setting('app.current_bu_id', true)`, set via `SET LOCAL` at the start of each request's transaction. If those session variables are unset, `current_setting(..., true)` returns `NULL` and every policy fails closed — no rows are visible.
 - **Queries**: parameterized everywhere (SQLAlchemy Core/ORM bound parameters). Any sort/filter query param is validated against a hardcoded column allow-list — never `getattr()`-based dynamic sorting.
 - **CORS**: explicit origin allowlist from config, never a wildcard. `allow_origins=["*"]` is never combined with `allow_credentials=True`.

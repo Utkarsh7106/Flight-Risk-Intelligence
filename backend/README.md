@@ -38,7 +38,21 @@ should. Connecting the app as the owner would silently defeat RLS.
 
 ## Tests
 
-None yet — Module 1 is schema + auth only per the kickoff brief. Add a test
-suite alongside the first router that does real query logic (directory
-listing), so the sort/filter column allow-list has something to test
-against.
+`backend/tests/` — pytest, run against the real local `fri_dev` database
+(no mocking; the point is proving Row-Level Security holds through the
+real request path, not a stand-in for it). Requires the venv, migrations,
+and seed data already set up per the steps above.
+
+```bash
+cd backend
+.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
+.venv/Scripts/python.exe -m pytest -v
+```
+
+Covers: JWT expiry, and the employee directory endpoint's BU isolation
+(HR sees all, BU Head sees only their own BU, cross-BU access by ID and
+by filter both return empty/404 rather than an error, compensation
+fields are never returned for a row the caller can't see, gender/DOB/phone
+never appear in any response, a manager in a different BU resolves to
+`null` rather than leaking a name, and a missing RLS session context
+returns zero rows rather than erroring).
