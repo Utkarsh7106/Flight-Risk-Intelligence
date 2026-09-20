@@ -1,0 +1,369 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Employee Drill Down | Jordan Smith</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#515f74",
+                    "on-tertiary-fixed-variant": "#004c6e",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-tint": "#565e74",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#c9e6ff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d5e3fd",
+                    "inverse-primary": "#bec6e0",
+                    "primary-fixed-dim": "#bec6e0",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#008cc7",
+                    "secondary-fixed": "#d5e3fd",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "surface-container-low": "#f2f4f6",
+                    "outline-variant": "#c6c6cd",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "surface-bright": "#f7f9fb",
+                    "surface": "#f7f9fb",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#000000",
+                    "surface-container": "#eceef0",
+                    "outline": "#76777d",
+                    "surface-variant": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-high": "#e6e8ea",
+                    "primary-container": "#131b2e",
+                    "primary-fixed": "#dae2fd",
+                    "tertiary-container": "#001e2f",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#131b2e",
+                    "on-tertiary-fixed": "#001e2f",
+                    "surface-container-highest": "#e0e3e5",
+                    "primary": "#000000",
+                    "background": "#f7f9fb",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "on-background": "#191c1e",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "on-secondary-container": "#57657b",
+                    "on-primary-container": "#7c839b",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#45464d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "1rem",
+                    "stack-lg": "2rem",
+                    "margin-page": "2rem",
+                    "container-max": "1440px",
+                    "gutter": "1.5rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "mono-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .ai-glow {
+            box-shadow: inset 0 0 12px rgba(0, 140, 199, 0.1);
+            border-left: 4px solid #008cc7;
+        }
+        .gauge-path {
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 20; /* High risk indicator */
+            transition: stroke-dashoffset 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-margin-page h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-on-primary-fixed"><h1 class="font-headline-sm text-headline-sm font-black text-on-surface" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(25, 28, 30); letter-spacing: normal; background-color: rgb(236, 238, 240); outline: none !important; box-shadow: none !important;"><br></h1></span>
+
+</div>
+
+</div>
+</header>
+<!-- Sidebar & Content Wrapper -->
+<div class="flex pt-16 h-full min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container dark:bg-primary-container p-stack-md z-40 hidden lg:flex flex-col">
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary text-on-primary rounded-xl flex items-center justify-center font-black">GH</div>
+<div>
+<p class="font-headline-sm text-headline-sm font-black text-on-surface leading-tight"></p><h1 class="font-headline-sm text-headline-sm font-black text-on-surface cursor-text" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(25, 28, 30); outline: none !important; box-shadow: none !important;">Flight Risk Intelligence</h1><p></p>
+<p class="font-label-md text-label-md opacity-70"><br></p>
+</div>
+</div>
+</div>
+
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-primary-container opacity-70 hover:bg-surface-container-high dark:hover:bg-secondary-fixed-dim rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-primary-container opacity-70 hover:bg-surface-container-high dark:hover:bg-secondary-fixed-dim rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Risk Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Employee Directory</span>
+</a>
+
+
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-on-primary-container opacity-70 hover:bg-surface-container-high dark:hover:bg-secondary-fixed-dim rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">new_releases</span>
+<span class="font-label-md text-label-md">Check what's new?</span>
+</a></nav>
+<div class="mt-auto pt-6 space-y-1">
+
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant dark:text-on-primary-container opacity-70 hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 p-margin-page bg-background">
+<div class="max-w-container-max mx-auto">
+<!-- Header: Jordan Smith -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-stack-lg gap-4">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img class="w-20 h-20 rounded-full border-2 border-primary object-cover" data-alt="High-resolution professional headshot of Jordan Smith, a mid-30s male with a focused and intelligent expression. He is wearing a minimalist dark sweater in a clean, brightly lit modern studio. Professional corporate photography style, high key lighting, crisp details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6LmeCfzNuC83xVnwBWxhVwExkv0N0s5vN5SMCtHzfZbNaqu0-dhZPkRgo0WDIE_bZS33kjq5pxsPoTo57po-yNIRXj_KyFdvH3GauHnkR40_iYcgHXu6EpXCnTJZZwpB_aolQcDvO5QClbRRUwAaVuGK5ZYYZ6qHXsIC6tpMVcHbDAaIlkqTIKyBGaMWHakenI2qTqIxR1kIqF3a_W1vEDenBub0NGwknubx_NgIwEwLXUtf5vRj4N2CeB1knj1DgKRUpBwtwGaCq">
+<span class="absolute bottom-1 right-1 w-5 h-5 bg-error border-2 border-white rounded-full"></span>
+</div>
+<div>
+<h1 class="font-display-lg text-display-lg text-primary">Jordan Smith</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Senior Software Engineer • Engineering Operations</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 border border-outline text-on-surface rounded-xl font-bold hover:bg-surface-container transition-colors">Generate PDF</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-colors">Initiate Action</button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Profile Section: KPI Cards -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-md text-label-md text-secondary mb-1">Performance</p>
+<p class="font-headline-md text-headline-md font-bold">Exceeds</p>
+<div class="flex items-center text-on-tertiary-container mt-2">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-xs ml-1">+4% vs Prev</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-md text-label-md text-secondary mb-1">Comp Ratio</p>
+<p class="font-headline-md text-headline-md font-bold">0.88</p>
+<div class="flex items-center text-error mt-2">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+<span class="text-xs ml-1">12% Under Market</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-md text-label-md text-secondary mb-1">Learning</p>
+<p class="font-headline-md text-headline-md font-bold">84%</p>
+<div class="w-full bg-surface-container rounded-full h-1 mt-3">
+<div class="bg-primary h-1 rounded-full" style="width: 84%"></div>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl">
+<p class="font-label-md text-label-md text-secondary mb-1">Engagement</p>
+<p class="font-headline-md text-headline-md font-bold">Low</p>
+<div class="flex items-center text-error mt-2">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="text-xs ml-1">Critical Dip</span>
+</div>
+</div>
+</div>
+<!-- AI Flight Risk Card (Module 2) -->
+<div class="col-span-12 lg:col-span-4 row-span-2 glass-card p-stack-lg rounded-2xl flex flex-col items-center justify-center text-center">
+<h3 class="font-headline-sm text-headline-sm mb-6">AI Flight Risk</h3>
+<div class="relative w-48 h-48 mb-6">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="gauge-path" cx="50" cy="50" fill="transparent" r="40" stroke="#ba1a1a" stroke-linecap="round" stroke-width="8" style="stroke-dashoffset: 20;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-error">92%</span>
+<span class="font-label-md text-label-md text-error uppercase tracking-widest font-bold">High Risk</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant px-4">Our model indicates a high likelihood of voluntary departure within the next 90 days.</p>
+<div class="mt-6 w-full pt-6 border-t border-outline-variant">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs text-secondary font-bold">Last Prediction Confidence</span>
+<span class="text-xs font-mono-data">94.8%</span>
+</div>
+</div>
+</div>
+<!-- Explainable AI Panel (Module 3) -->
+<div class="col-span-12 lg:col-span-8 glass-card p-stack-lg rounded-2xl">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-on-tertiary-container">psychology</span>
+<h3 class="font-headline-sm text-headline-sm">Top Risk Drivers</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="bg-error-container text-on-error-container p-2 rounded-lg">
+<span class="material-symbols-outlined">event_busy</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold">No promotion (4 yrs)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Tenure in current role exceeds average peer promotion cycle by 18 months.</p>
+</div>
+<span class="ml-auto font-mono-data text-error font-bold">+35% Risk</span>
+</div>
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="bg-error-container text-on-error-container p-2 rounded-lg">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold">Salary below market (-12%)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Compensation is in the bottom quartile for Senior Engineers in the same region.</p>
+</div>
+<span class="ml-auto font-mono-data text-error font-bold">+28% Risk</span>
+</div>
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-lg">
+<span class="material-symbols-outlined">mood_bad</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold">Low engagement trends</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Internal tool activity and Slack participation dropped by 45% in last quarter.</p>
+</div>
+<span class="ml-auto font-mono-data text-on-surface-variant font-bold">+15% Risk</span>
+</div>
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-lg">
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-bold">Declining manager ratings</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Recent 360 feedback shows a slight decline in collaboration scores.</p>
+</div>
+<span class="ml-auto font-mono-data text-on-surface-variant font-bold">+14% Risk</span>
+</div>
+</div>
+</div>
+<!-- AI Retention Recommendations (Module 4) -->
+
+</div>
+</div>
+</main>
+<!-- Interactive NLP HR Assistant Sidebar (Module 7) -->
+<aside class="fixed right-0 top-16 h-[calc(100vh-64px)] w-80 bg-surface-container-low border-l border-outline-variant hidden xl:flex flex-col z-40">
+<div class="p-6 border-b border-outline-variant">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-headline-sm text-headline-sm">HR Assistant</h4>
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Ask about this employee's trends, risk factors, or historical performance."</p>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<div class="bg-surface-container-high p-4 rounded-xl border border-outline-variant">
+<p class="font-label-md text-label-md text-secondary mb-3">Suggested Questions</p>
+<div class="space-y-2">
+<button class="w-full text-left p-2 text-xs bg-white rounded-lg border border-outline-variant hover:border-primary transition-colors">"Why is the risk score 92%?"</button>
+<button class="w-full text-left p-2 text-xs bg-white rounded-lg border border-outline-variant hover:border-primary transition-colors">"Compare Jordan's comp to local peers."</button>
+<button class="w-full text-left p-2 text-xs bg-white rounded-lg border border-outline-variant hover:border-primary transition-colors">"What are Jordan's top skills?"</button>
+<button class="w-full text-left p-2 text-xs bg-white rounded-lg border border-outline-variant hover:border-primary transition-colors">"How has engagement changed since Jan?"</button>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="self-end bg-primary-container text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] text-xs shadow-sm">
+                        What's the specific driver for the recent engagement dip?
+                    </div>
+<div class="self-start bg-white p-3 rounded-2xl rounded-tl-none border border-outline-variant max-w-[85%] text-xs shadow-sm">
+                        Analysis of Slack and Jira telemetry shows a <span class="font-bold text-error">45% reduction</span> in cross-team collaboration events. Jordan has primarily interacted only with direct reports, suggesting social isolation or burnout.
+                    </div>
+</div>
+</div>
+<div class="p-4 bg-white border-t border-outline-variant">
+<div class="relative">
+<input class="w-full pl-4 pr-12 py-3 bg-surface-container rounded-xl border-none focus:ring-2 focus:ring-primary text-body-md" placeholder="Ask about Jordan..." type="text">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple gauge animation logic
+        window.addEventListener('load', () => {
+            const gauge = document.querySelector('.gauge-path');
+            if (gauge) {
+                // High risk 92% -> roughly 20 offset (251.2 * (1 - 0.92))
+                setTimeout(() => {
+                    gauge.style.strokeDashoffset = '20';
+                }, 500);
+            }
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[placeholder="Search employees..."]');
+        if (searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('ring-2', 'ring-primary/20', 'border-primary');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20', 'border-primary');
+            });
+        }
+    </script>
+
+
+
+
+</body></html>

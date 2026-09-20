@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en" class="light" style=""><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#d5e3fd",
+                    "on-primary-container": "#7c839b",
+                    "tertiary-container": "#001e2f",
+                    "on-primary-fixed": "#131b2e",
+                    "tertiary": "#000000",
+                    "surface-container-high": "#e6e8ea",
+                    "secondary-fixed": "#d5e3fd",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-bright": "#f7f9fb",
+                    "on-secondary-container": "#57657b",
+                    "inverse-primary": "#bec6e0",
+                    "tertiary-fixed": "#c9e6ff",
+                    "primary": "#000000",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container-highest": "#e0e3e5",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#565e74",
+                    "inverse-surface": "#2d3133",
+                    "surface": "#f7f9fb",
+                    "on-tertiary-fixed": "#001e2f",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#dae2fd",
+                    "surface-dim": "#d8dadc",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "background": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "secondary": "#515f74",
+                    "primary-container": "#131b2e",
+                    "outline-variant": "#c6c6cd",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-surface-variant": "#45464d",
+                    "surface-container": "#eceef0",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#008cc7",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "outline": "#76777d",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#004c6e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "1rem",
+                    "stack-lg": "2rem",
+                    "gutter": "1.5rem",
+                    "margin-page": "2rem",
+                    "stack-sm": "0.5rem",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "mono-data": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script></head><body class="bg-surface-container-lowest min-h-screen flex flex-col font-body-md text-on-surface">
+
+    <!-- Top AppBar (Simplified for Login Context - No Nav Shell) -->
+    <header class="w-full flex justify-between items-center px-margin-page py-stack-md bg-surface border-b border-outline-variant">
+        <div class="font-display-lg text-display-lg font-bold text-primary"><h1 class="font-headline-md text-headline-md font-bold text-primary uppercase" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(0, 0, 0); text-align: center; background-color: rgb(242, 244, 246); cursor: text !important; outline: none !important; box-shadow: none !important;">FLIGHT RISK INTELLIGENCE</h1></div>
+        <div class="flex gap-stack-md">
+            
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-gutter">
+        <div class="w-full max-w-[440px]">
+            <!-- Login Container -->
+            <div class="bg-surface border border-outline-variant p-stack-lg login-card rounded-lg">
+                
+                <div class="mb-stack-lg text-center">
+                    
+                    <p class="font-body-md text-body-md text-on-surface-variant">Access your workforce analytics dashboard.</p>
+                </div>
+
+                <form id="loginForm" class="space-y-stack-md">
+                    
+                    <!-- Role Selection Toggle -->
+                    <div class="space-y-stack-sm">
+                        
+                        
+                    </div>
+
+                    <!-- User ID / Email -->
+                    <div class="space-y-stack-sm">
+                        <label for="username" class="font-label-md text-label-md text-on-surface-variant block uppercase">User ID or Email</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="person">person</span>
+                            <input type="text" id="username" name="username" placeholder="e.g. john.doe@executivehr.com" class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="space-y-stack-sm">
+                        <div class="flex justify-between items-center">
+                            <label for="password" class="font-label-md text-label-md text-on-surface-variant block uppercase">Password</label>
+                            
+                        </div>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="lock">lock</span>
+                            <input type="password" id="password" name="password" placeholder="••••••••" class="w-full pl-10 pr-12 py-3 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md transition-all">
+                            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" onclick="togglePassword()">
+                                <span class="material-symbols-outlined" id="eye-icon" data-icon="visibility">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-stack-md">
+                        <button type="submit" class="w-full bg-primary text-on-primary py-4 px-6 rounded-lg font-headline-sm text-headline-sm font-semibold hover:opacity-90 active:opacity-100 transition-all flex justify-center items-center gap-2">
+                            Sign In
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- Security Assurance -->
+                
+            </div>
+
+            <!-- Footer Meta -->
+            
+        </div>
+    </main>
+
+    <!-- Global Footer (Refined for Shell-less context) -->
+    
+
+    <script>
+        function setRole(role) {
+            const buBtn = document.getElementById('role-bu');
+            const hrBtn = document.getElementById('role-hr');
+            
+            if (role === 'bu') {
+                buBtn.classList.add('role-toggle-active');
+                buBtn.classList.remove('text-on-surface-variant');
+                hrBtn.classList.remove('role-toggle-active');
+                hrBtn.classList.add('text-on-surface-variant');
+            } else {
+                hrBtn.classList.add('role-toggle-active');
+                hrBtn.classList.remove('text-on-surface-variant');
+                buBtn.classList.remove('role-toggle-active');
+                buBtn.classList.add('text-on-surface-variant');
+            }
+        }
+
+        function togglePassword() {
+            const pwInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                eyeIcon.textContent = 'visibility_off';
+            } else {
+                pwInput.type = 'password';
+                eyeIcon.textContent = 'visibility';
+            }
+        }
+
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin material-symbols-outlined" data-icon="progress_activity">progress_activity</span> Authenticating...`;
+            
+            setTimeout(() => {</script></body></html>

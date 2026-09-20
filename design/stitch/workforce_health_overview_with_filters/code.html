@@ -1,0 +1,558 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 1280px; height: 1163px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Workforce Health - Unified Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#515f74",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#c9e6ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d5e3fd",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#008cc7",
+                        "secondary-fixed": "#d5e3fd",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "surface-bright": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-container": "#eceef0",
+                        "outline": "#76777d",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-container": "#131b2e",
+                        "primary-fixed": "#dae2fd",
+                        "tertiary-container": "#001e2f",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary": "#000000",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-background": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-container": "#7c839b",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "margin-page": "2rem",
+                        "container-max": "1440px",
+                        "gutter": "1.5rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "mono-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #e2e8f0;
+        }
+        .sidebar-active {
+            background-color: #d5e3fd; /* secondary-container */
+            color: #131b2e; /* on-primary-fixed */
+            font-weight: 700;
+            border-radius: 0.5rem;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Shell Container -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-stack-md z-40 bg-surface-container w-64 border-r border-outline-variant">
+<div class="flex items-center gap-3 px-2 mb-10">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: &quot;FILL&quot; 1;">analytics</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-black text-on-surface">Flight Risk Intelligence</h1>
+<p class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant opacity-70"><br></p>
+</div>
+</div>
+<nav class="flex-1 space-y-1"><div class="group text-on-surface-variant opacity-70 flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-high transition-all active:scale-95 duration-200"><span class="material-symbols-outlined">analytics</span><span class="font-label-md text-label-md">Overview</span></div><div class="group sidebar-active flex items-center gap-3 px-4 py-3 cursor-pointer transition-all active:scale-95 duration-200"><span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">dashboard</span><span class="font-label-md text-label-md">Risk Analytics</span></div>
+
+
+<div class="group text-on-surface-variant opacity-70 flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-high transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Employee Directory</span>
+</div>
+<div class="group text-on-surface-variant opacity-70 flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-high transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">new_releases</span>
+<span class="font-label-md text-label-md">Check what's new?</span>
+</div></nav>
+<div class="pt-6 border-t border-outline-variant space-y-1">
+<div class="group text-on-surface-variant opacity-70 flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 flex flex-col h-full overflow-hidden bg-background">
+<!-- TopAppBar Component -->
+<header class="flex justify-between items-center px-margin-page h-16 w-full bg-surface border-b border-outline-variant z-30">
+<div class="flex items-center gap-4">
+
+</div>
+<div class="flex-1 max-w-xl px-8">
+<div class="relative w-full">
+</div>
+</div>
+</header><div class="px-margin-page pt-6">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-10 text-sm font-body-md focus:outline-none focus:border-primary transition-colors">
+<option>All Units</option>
+<option>Engineering</option>
+<option>Sales &amp; Marketing</option>
+<option>Operations</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-10 text-sm font-body-md focus:outline-none focus:border-primary transition-colors">
+<option>All Managers</option>
+<option>Level 3+</option>
+<option>Individual Contributors</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-10 text-sm font-body-md focus:outline-none focus:border-primary transition-colors">
+<option>All Depts</option>
+<option>Cloud Infrastructure</option>
+<option>Human Capital</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-10 text-sm font-body-md focus:outline-none focus:border-primary transition-colors">
+<option>Any</option>
+<option>Female</option>
+<option>Male</option>
+<option>Non-binary</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-margin-page custom-scrollbar flex flex-col">
+<!-- KPI Section -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-gutter mb-stack-lg">
+<!-- KPI Card -->
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-shadow" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<p class="font-label-md text-on-surface-variant mb-2">Total Employees</p>
+<div class="flex items-end justify-between">
+<h3 class="font-display-lg text-display-lg">1,240</h3>
+<span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">+2.4%</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-shadow" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<p class="font-label-md text-on-surface-variant mb-2">Active</p>
+<div class="flex items-end justify-between">
+<h3 class="font-display-lg text-display-lg">1,180</h3>
+<div class="w-12 h-6 flex items-end gap-[2px]">
+<div class="w-1 bg-slate-200 h-[30%]"></div>
+<div class="w-1 bg-slate-200 h-[50%]"></div>
+<div class="w-1 bg-primary h-[80%]"></div>
+<div class="w-1 bg-primary h-[70%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-shadow" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<p class="font-label-md text-on-surface-variant mb-2">High Risk</p>
+<div class="flex items-end justify-between">
+<h3 class="font-display-lg text-display-lg text-error">42</h3>
+<span class="flex items-center text-xs font-bold text-error bg-error-container px-2 py-0.5 rounded-full">! Urgent</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-shadow" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<p class="font-label-md text-on-surface-variant mb-2">Avg Engagement</p>
+<div class="flex items-end justify-between">
+<h3 class="font-display-lg text-display-lg">4.2<span class="text-sm font-normal text-on-surface-variant">/5</span></h3>
+<span class="material-symbols-outlined text-on-tertiary-container">trending_up</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-shadow" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<p class="font-label-md text-on-surface-variant mb-2">Avg Performance</p>
+<div class="flex items-end justify-between">
+<h3 class="font-display-lg text-display-lg">3.8<span class="text-sm font-normal text-on-surface-variant">/5</span></h3>
+<span class="material-symbols-outlined text-secondary">drag_handle</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout for Main Content -->
+<div class="grid grid-cols-12 gap-gutter flex-1">
+<!-- Alerts & Notifications Panel -->
+<!-- At-a-Glance High Risk Table -->
+<div class="col-span-12">
+<div class="bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col flex-1" style="transform: translateY(0px); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+<div class="p-5 flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold">High-Risk Workforce Monitoring</h4>
+<p class="text-xs text-on-surface-variant mt-1">Active priority list based on behavioral and performance triggers.</p>
+</div><div class="relative w-full max-w-[300px] ml-auto mr-4">
+  <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+  <input type="text" placeholder="Search by employee..." class="w-full bg-white border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm font-body-md focus:outline-none focus:border-primary transition-colors">
+</div>
+<button class="flex items-center gap-2 text-primary font-bold text-sm hover:underline">
+<span class="">Export Report</span>
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-y border-outline-variant">
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Employee Name</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Department</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Risk Level</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Table Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">EM</div>
+<div>
+<p class="font-body-md font-bold">Elena Martinez</p>
+<p class="text-xs text-on-surface-variant">Lead Frontend Dev</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Engineering</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-error h-full" style="width: 92%;"></div>
+</div>
+<span class="font-mono-data text-error font-bold">92%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-100">CRITICAL</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">JR</div>
+<div>
+<p class="font-body-md font-bold">Julian Rossi</p>
+<p class="text-xs text-on-surface-variant">Account Executive</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Sales</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-error h-full" style="width: 88%;"></div>
+</div>
+<span class="font-mono-data text-error font-bold">88%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-100">CRITICAL</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">SC</div>
+<div>
+<p class="font-body-md font-bold">Sarah Chen</p>
+<p class="text-xs text-on-surface-variant">Product Designer</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Design</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-orange-500 h-full" style="width: 84%;"></div>
+</div>
+<span class="font-mono-data text-orange-600 font-bold">84%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-700 border border-orange-100">HIGH</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">MB</div>
+<div>
+<p class="font-body-md font-bold">Marcus Brown</p>
+<p class="text-xs text-on-surface-variant">Data Scientist</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Engineering</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-orange-500 h-full" style="width: 79%;"></div>
+</div>
+<span class="font-mono-data text-orange-600 font-bold">79%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-700 border border-orange-100">HIGH</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">LW</div>
+<div>
+<p class="font-body-md font-bold">Linda Wu</p>
+<p class="text-xs text-on-surface-variant">HR Ops Manager</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">People Ops</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-orange-500 h-full" style="width: 75%;"></div>
+</div>
+<span class="font-mono-data text-orange-600 font-bold">75%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-700 border border-orange-100">HIGH</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 6 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">DP</div>
+<div>
+<p class="font-body-md font-bold">David Park</p>
+<p class="text-xs text-on-surface-variant">Senior Backend Dev</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Engineering</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-orange-500 h-full" style="width: 72%;"></div>
+</div>
+<span class="font-mono-data text-orange-600 font-bold">72%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-700 border border-orange-100">HIGH</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 7 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">MG</div>
+<div>
+<p class="font-body-md font-bold">Maria Garcia</p>
+<p class="text-xs text-on-surface-variant">Customer Success Lead</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Success</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-slate-200 h-full" style="width: 68%;"></div>
+</div>
+<span class="font-mono-data text-secondary font-bold">68%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-secondary border border-slate-200">MEDIUM</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr>
+<!-- Table Row 8 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">AT</div>
+<div>
+<p class="font-body-md font-bold">Alex Thompson</p>
+<p class="text-xs text-on-surface-variant">HR Generalist</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">People Ops</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden w-24">
+<div class="bg-slate-200 h-full" style="width: 65%;"></div>
+</div>
+<span class="font-mono-data text-secondary font-bold">65%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-secondary border border-slate-200">MEDIUM</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-xs px-3 py-1.5 border border-primary rounded hover:bg-primary hover:text-white transition-all">Drill Down</button>
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+<span class="text-xs text-on-surface-variant">Showing 8 of 42 high-risk alerts</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-400 cursor-not-allowed">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-primary hover:bg-slate-50">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Status Bar -->
+</div>
+</main>
+</div>
+<!-- Background Subtle Effect -->
+<div class="fixed inset-0 -z-10 opacity-30 pointer-events-none">
+</div>
+<script>
+        // Micro-interactions and data simulations
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('opacity-50');
+                setTimeout(() => btn.classList.remove('opacity-50'), 150);
+            });
+        });
+
+        // Hover animation logic for cards
+        const cards = document.querySelectorAll('.bg-white.rounded-xl');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

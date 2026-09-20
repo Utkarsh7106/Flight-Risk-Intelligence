@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en" class="light" style="width: 1292px; height: 547px; overflow: hidden; position: relative;"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#76777d",
+                    "primary-container": "#131b2e",
+                    "tertiary-fixed": "#c9e6ff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary-container": "#57657b",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#d5e3fd",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c6c6cd",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "surface-bright": "#f7f9fb",
+                    "on-background": "#191c1e",
+                    "tertiary": "#000000",
+                    "on-tertiary-fixed-variant": "#004c6e",
+                    "inverse-primary": "#bec6e0",
+                    "primary": "#000000",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-high": "#e6e8ea",
+                    "background": "#f7f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "tertiary-container": "#001e2f",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary-fixed": "#131b2e",
+                    "secondary": "#515f74",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#565e74",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-container": "#008cc7",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "on-tertiary-fixed": "#001e2f",
+                    "on-surface-variant": "#45464d",
+                    "on-primary-container": "#7c839b",
+                    "surface-dim": "#d8dadc",
+                    "secondary-container": "#d5e3fd",
+                    "on-surface": "#191c1e",
+                    "on-primary-fixed-variant": "#3f465c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "1.5rem",
+                    "stack-sm": "0.5rem",
+                    "margin-page": "2rem",
+                    "container-max": "1440px",
+                    "stack-md": "1rem",
+                    "stack-lg": "2rem"
+            },
+            "fontFamily": {
+                    "mono-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script></head><body class="bg-surface text-on-surface min-h-screen flex flex-col">
+
+    <!-- TopAppBar -->
+    <header class="w-full top-0 sticky bg-surface dark:bg-surface-container-low border-b border-outline-variant dark:border-outline z-50">
+        <div class="flex justify-between items-center px-margin-page py-4 max-w-container-max mx-auto">
+            <div class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-primary-fixed">
+                HR Intelligence Platform
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <span class="font-body-md text-body-md text-on-surface-variant cursor-pointer hover:bg-surface-container-high transition-colors px-3 py-1 rounded-lg">Support</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-grow flex items-center justify-center px-gutter py-stack-lg relative overflow-hidden">
+        
+        <!-- Subtle Ambient Background Detail (Visual Polish) -->
+        <div class="absolute inset-0 pointer-events-none opacity-40">
+            <div class="absolute -top-[10%] -right-[5%] w-[40%] h-[60%] bg-secondary-container blur-[120px] rounded-full"></div>
+            <div class="absolute -bottom-[10%] -left-[5%] w-[30%] h-[50%] bg-tertiary-fixed-dim blur-[100px] rounded-full"></div>
+        </div>
+
+        <!-- Logout Confirmation Card -->
+        <section class="exit-animation relative z-10 w-full max-w-[480px] bg-surface-container-lowest border border-outline-variant rounded-xl p-10 flex flex-col items-center text-center shadow-sm">
+            
+            <!-- Security/Exit Icon Cluster -->
+            <div class="mb-8 relative">
+                <div class="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[48px] text-primary" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 0;">shield_with_heart</span>
+                </div>
+                <!-- Mini Check Badge -->
+                <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-lowest">
+                    <span class="material-symbols-outlined text-[18px] text-white" data-icon="check" style="font-variation-settings: 'FILL' 0; font-weight: 700;">check</span>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <h1 class="font-headline-md text-headline-md text-on-surface mb-stack-sm tracking-tight">
+                Successfully Logged Out
+            </h1>
+            
+
+            <!-- Actions -->
+            <div class="w-full flex flex-col gap-4">
+                <button class="w-full bg-primary hover:bg-primary-container text-on-primary font-body-md text-body-md py-4 rounded-lg transition-all active:scale-[0.98] shadow-sm flex items-center justify-center gap-2">
+                    Log Back In
+                    <span class="material-symbols-outlined text-[18px]" data-icon="login">login</span>
+                </button>
+                
+                <a href="#" class="w-full font-body-md text-body-md text-secondary hover:text-primary transition-colors py-2 block">
+                    Return to Website
+                </a>
+            </div>
+
+            <!-- Security Footer Note -->
+            <div class="mt-12 flex items-center gap-2 opacity-50">
+                <span class="material-symbols-outlined text-[16px]" data-icon="lock_open">lock_open</span>
+                <span class="font-label-md text-label-md uppercase tracking-widest">End-to-End Encryption Cleared</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline">
+        
+    </footer>
+
+    <script class="">
+        // Simple Micro-interaction for the Log Back In button
+        const loginBtn = document.querySelector('button');
+        loginBtn.addEventListener('click', () => {
+            loginBtn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"></script><div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="en" class="light" style="width: 1280px; height: 1511px; overflow: hidden; position: relative;"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#c9e6ff",
+                        "on-surface-variant": "#45464d",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#000000",
+                        "primary-fixed": "#dae2fd",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed": "#d5e3fd",
+                        "outline": "#76777d",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-secondary-container": "#57657b",
+                        "on-background": "#191c1e",
+                        "secondary-container": "#d5e3fd",
+                        "outline-variant": "#c6c6cd",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-container": "#001e2f",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#515f74",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#008cc7",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "on-tertiary-fixed": "#001e2f",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "stack-sm": "0.5rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "margin-page": "2rem",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-container-lowest dark:bg-surface-dim border-b border-outline-variant dark:border-outline fixed top-0 left-0 right-0 z-50">
+
+</header>
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden lg:flex flex-col py-stack-lg px-stack-md bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-16 border-r border-outline-variant dark:border-outline">
+<div class="mb-stack-lg px-2">
+<div class="font-headline-sm text-headline-sm font-black text-primary dark:text-primary-fixed"><span style="font-size: 36px; letter-spacing: -0.72px;" class="">Flight Risk Intelligence</span></div>
+
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active State: Risk Analysis -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-xl transition-all active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Risk Analysis</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all rounded-xl active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-label-md text-label-md">Employee Directory</span>
+</a>
+</nav>
+<div class="mt-auto pt-stack-lg space-y-2 border-t border-outline-variant">
+
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-12 px-margin-page">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-stack-lg gap-4">
+<div class="">
+<h1 class="font-display-lg text-display-lg text-primary-container">DataQuark Risk Analysis</h1>
+<p class="text-body-lg text-on-surface-variant">Real-time workforce vulnerability assessment for Business Unit Head</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-md text-label-md">Q3 FISCAL 2024</span>
+</div>
+</div>
+<!-- KPI Row: Bento Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-stack-lg">
+<!-- BU Attrition Risk -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">BU Attrition Risk</span>
+<span class="text-error font-mono-data text-mono-data flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +2.4%
+                        </span>
+</div>
+<div class="text-display-lg font-display-lg text-primary-container">18.2%</div>
+<div class="w-full bg-surface-container h-1.5 mt-4 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 18.2%"></div>
+</div>
+</div>
+<!-- High Risk Headcount -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">High Risk Headcount</span>
+<span class="bg-error-container text-on-error-container px-2 py-0.5 rounded text-[10px] font-bold">CRITICAL</span>
+</div>
+<div class="text-display-lg font-display-lg text-primary-container">42</div>
+<p class="text-body-md text-on-surface-variant mt-2">12.5% of total BU staff</p>
+</div>
+<!-- Average BU Engagement -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">BU Engagement</span>
+<span class="text-on-tertiary-container font-mono-data text-mono-data">Stable</span>
+</div>
+<div class="text-display-lg font-display-lg text-primary-container">74<span class="text-headline-sm">/100</span></div>
+<div class="flex gap-1 mt-4">
+<div class="h-1 flex-1 bg-on-tertiary-container rounded-full"></div>
+<div class="h-1 flex-1 bg-on-tertiary-container rounded-full"></div>
+<div class="h-1 flex-1 bg-on-tertiary-container rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-container rounded-full"></div>
+</div>
+</div>
+<!-- Retention Budget Utilization -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-lg transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Budget Util.</span>
+<span class="text-outline font-mono-data text-mono-data">$1.2M cap</span>
+</div>
+<div class="text-display-lg font-display-lg text-primary-container">64%</div>
+<p class="text-body-md text-on-surface-variant mt-2">$768k spent YTD</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Risk Heatmap (Left/Center) -->
+<div class="lg:col-span-2 space-y-gutter">
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Risk by Department</h3>
+<p class="text-body-md text-on-surface-variant">Cross-referencing impact vs. likelihood for DataQuark units</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 bg-surface-container text-label-md font-label-md rounded-lg border border-outline-variant">Download PDF</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary text-label-md font-label-md rounded-lg">Live Filter</button>
+</div>
+</div>
+<!-- Custom Heatmap UI -->
+<div class="relative h-[300px] w-full border-l border-b border-outline-variant flex items-end">
+<div class="absolute -left-12 top-1/2 -rotate-90 text-label-md font-bold text-outline">RISK IMPACT</div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-label-md font-bold text-outline">RISK LIKELIHOOD</div>
+<div class="grid grid-cols-5 grid-rows-5 w-full h-full p-2">
+<!-- Example heatmap blocks -->
+<div class="bg-error/10 border border-white/20 rounded m-1 flex items-center justify-center relative group">
+<div class="absolute inset-0 bg-error opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+<div class="bg-error/20 border border-white/20 rounded m-1"></div>
+<div class="bg-error/40 border border-white/20 rounded m-1"></div>
+<div class="bg-error/80 border border-white/20 rounded m-1 flex items-center justify-center">
+<span class="bg-white/90 px-2 py-1 rounded text-[10px] font-bold shadow-sm">DATA ENG</span>
+</div>
+<div class="bg-error border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-error/20 border border-white/20 rounded m-1"></div>
+<div class="bg-error/40 border border-white/20 rounded m-1"></div>
+<div class="bg-error/60 border border-white/20 rounded m-1 flex items-center justify-center">
+<span class="bg-white/90 px-2 py-1 rounded text-[10px] font-bold shadow-sm">AI RESEARCH</span>
+</div>
+<div class="bg-error/80 border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-error/20 border border-white/20 rounded m-1 flex items-center justify-center">
+<span class="bg-white/90 px-2 py-1 rounded text-[10px] font-bold shadow-sm">ANALYTICS</span>
+</div>
+<div class="bg-error/40 border border-white/20 rounded m-1"></div>
+<div class="bg-error/60 border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-error/20 border border-white/20 rounded m-1"></div>
+<div class="bg-error/40 border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1"></div>
+<div class="bg-surface-container border border-white/20 rounded m-1 flex items-center justify-center">
+<span class="bg-white/90 px-2 py-1 rounded text-[10px] font-bold shadow-sm">SUPPORT</span>
+</div>
+<div class="bg-error/10 border border-white/20 rounded m-1"></div>
+</div>
+</div>
+<div class="mt-12 flex justify-center gap-stack-lg">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-surface-container"></div>
+<span class="text-label-md text-on-surface-variant">Low Risk</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-error/40"></div>
+<span class="text-label-md text-on-surface-variant">Moderate Risk</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-error"></div>
+<span class="text-label-md text-on-surface-variant">Critical Risk</span>
+</div>
+</div>
+</div>
+<!-- AI Insights Block -->
+<div class="bg-tertiary-container/10 border-l-4 border-on-tertiary-container p-6 rounded-r-xl">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h4 class="font-headline-sm text-headline-sm text-on-tertiary-container">BU Strategic Insights</h4>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-on-tertiary-container/20">
+<p class="text-body-md text-primary-container font-semibold">Competitor headhunting in Data Engineering</p>
+<p class="text-body-md text-on-surface-variant mt-1 leading-relaxed">External market intelligence indicates aggressive recruitment from <span class="font-bold">QuantLogic Inc.</span> specifically targeting your Senior Data Engineers. Attrition risk for this role has spiked 32% this month.</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-on-tertiary-container/20">
+<p class="text-body-md text-primary-container font-semibold">Project Overload: Quantum Scaling Initiative</p>
+<p class="text-body-md text-on-surface-variant mt-1 leading-relaxed">Engagement scores in AI Research correlate directly with 60+ hour work weeks reported in project logs. Burnout flags are high for 14 key contributors.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- -->
+<div class="lg:col-span-1">
+<div class="bg-surface-container-lowest h-full p-6 rounded-xl border border-outline-variant flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm text-primary-container">Highest Priority Risks</h3>
+<span class="material-symbols-outlined text-error">warning</span>
+</div>
+<div class="space-y-4 flex-1">
+<!-- High Risk Employee 1 -->
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center font-bold text-on-surface-variant">MK</div>
+<div>
+<div class="font-body-md text-body-md font-bold text-primary-container">Marcus Kane</div>
+<div class="text-label-md text-on-surface-variant">Principal Architect</div>
+</div>
+<div class="ml-auto text-error font-mono-data text-mono-data bg-error-container px-2 py-0.5 rounded">98%</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Market Comp Gap</span>
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Manager Friction</span>
+</div>
+</div>
+<!-- High Risk Employee 2 -->
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center font-bold text-on-surface-variant">SL</div>
+<div>
+<div class="font-body-md text-body-md font-bold text-primary-container">Sarah Liao</div>
+<div class="text-label-md text-on-surface-variant">Lead Data Scientist</div>
+</div>
+<div class="ml-auto text-error font-mono-data text-mono-data bg-error-container px-2 py-0.5 rounded">92%</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Burnout Index</span>
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Stock Vesting</span>
+</div>
+</div>
+<!-- High Risk Employee 3 -->
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center font-bold text-on-surface-variant">JD</div>
+<div>
+<div class="font-body-md text-body-md font-bold text-primary-container">Jordan Deen</div>
+<div class="text-label-md text-on-surface-variant">Senior Engineer</div>
+</div>
+<div class="ml-auto text-error font-mono-data text-mono-data bg-error-container px-2 py-0.5 rounded">89%</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Market Comp Gap</span>
+</div>
+</div>
+<!-- High Risk Employee 4 -->
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center font-bold text-on-surface-variant">RA</div>
+<div>
+<div class="font-body-md text-body-md font-bold text-primary-container">Rachel Adams</div>
+<div class="text-label-md text-on-surface-variant">Product Lead</div>
+</div>
+<div class="ml-auto text-error font-mono-data text-mono-data bg-error-container px-2 py-0.5 rounded">85%</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-white text-[10px] text-outline border rounded">Low Engagement</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 bg-surface-container-highest text-on-surface font-label-md rounded-xl hover:bg-outline-variant transition-colors flex items-center justify-center gap-2">
+                            View All 42 High-Risk Staff
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Details -->
+
+</div>
+</main>
+<!-- Floating Insight Action -->
+<div class="fixed bottom-8 right-8 z-40">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+</div>
+<script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('.cursor-pointer').forEach(el => {
+            el.addEventListener('click', () => {
+                el.classList.add('ring-2', 'ring-primary-fixed');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-primary-fixed'), 400);
+            });
+        });
+    </script>
+
+
+
+
+
+</body></html>
