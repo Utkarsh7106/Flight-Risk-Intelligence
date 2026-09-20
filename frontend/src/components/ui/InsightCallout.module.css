@@ -1,0 +1,19 @@
+.callout {
+  display: flex;
+  gap: var(--space-sm);
+  background: var(--color-ai-insight-bg);
+  border-left: 3px solid var(--color-ai-insight-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+}
+
+.icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  line-height: 1;
+  font-size: 18px;
+}
+
+.body {
+  color: var(--color-on-surface);
+}

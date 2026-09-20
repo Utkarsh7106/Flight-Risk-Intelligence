@@ -1,0 +1,123 @@
+/*
+ * Design tokens translated from design/stitch/DESIGN.md.
+ *
+ * DESIGN.md's frontmatter sets `primary` and `tertiary` to literal
+ * #000000, which reads as a Stitch export artifact rather than intent —
+ * the prose section ("Colors") explicitly names Deep Navy / Slate / Cyan
+ * as the brand palette and gives semantic risk colors that don't appear
+ * in the frontmatter at all. This file follows the prose for brand and
+ * semantic colors, and keeps the frontmatter's neutral/surface scale
+ * (it's internally consistent and unambiguous) for everything else.
+ */
+
+:root {
+  /* Brand colors — DESIGN.md prose, "Colors" section */
+  --color-primary: #0f172a; /* Deep Navy */
+  --color-primary-hover: #1e293b;
+  --color-on-primary: #ffffff;
+  --color-secondary: #334155; /* Slate */
+  --color-on-secondary: #ffffff;
+  --color-accent: #0ea5e9; /* Cyan — sparing use, actions/highlights */
+  --color-on-accent: #ffffff;
+
+  /* Semantic risk colors — DESIGN.md prose, "Colors" section */
+  --color-risk-low: #059669; /* Emerald 600 */
+  --color-risk-low-bg: #ecfdf5;
+  --color-risk-low-text: #047857;
+  --color-risk-medium: #f59e0b; /* Amber 500 */
+  --color-risk-medium-bg: #fffbeb;
+  --color-risk-medium-text: #b45309;
+  --color-risk-high: #dc2626; /* Red 600 */
+  --color-risk-high-bg: #fef2f2;
+  --color-risk-high-text: #b91c1c;
+
+  /* Neutral / surface scale — DESIGN.md frontmatter (as generated) */
+  --color-surface: #f7f9fb;
+  --color-surface-dim: #d8dadc;
+  --color-surface-bright: #f7f9fb;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f6;
+  --color-surface-container: #eceef0;
+  --color-surface-container-high: #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
+  --color-on-surface: #191c1e;
+  --color-on-surface-variant: #45464d;
+  --color-inverse-surface: #2d3133;
+  --color-inverse-on-surface: #eff1f3;
+  --color-outline: #76777d;
+  --color-outline-variant: #c6c6cd;
+
+  /* Elevation tiers — DESIGN.md prose, "Elevation & Depth" section */
+  --color-elevation-0-bg: #f8fafc; /* Slate 50 */
+  --color-elevation-1-bg: #ffffff;
+  --color-elevation-1-border: #e2e8f0; /* Slate 200 */
+  --shadow-elevation-2: 0px 4px 6px -1px rgba(15, 23, 42, 0.1);
+  --overlay-backdrop: rgba(15, 23, 42, 0.4);
+  --color-ai-insight-bg: #f0f9ff; /* Cyan 50 */
+  --color-ai-insight-border: #0ea5e9;
+
+  /* Error (form/system errors, distinct from "high risk" semantics) */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Typography — DESIGN.md frontmatter "typography" */
+  --font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --font-display-lg-size: 36px;
+  --font-display-lg-weight: 700;
+  --font-display-lg-line: 44px;
+  --font-display-lg-tracking: -0.02em;
+
+  --font-headline-md-size: 24px;
+  --font-headline-md-weight: 600;
+  --font-headline-md-line: 32px;
+  --font-headline-md-tracking: -0.01em;
+
+  --font-headline-sm-size: 20px;
+  --font-headline-sm-weight: 600;
+  --font-headline-sm-line: 28px;
+
+  --font-body-lg-size: 16px;
+  --font-body-lg-weight: 400;
+  --font-body-lg-line: 24px;
+
+  --font-body-md-size: 14px;
+  --font-body-md-weight: 400;
+  --font-body-md-line: 20px;
+
+  --font-label-md-size: 12px;
+  --font-label-md-weight: 600;
+  --font-label-md-line: 16px;
+  --font-label-md-tracking: 0.05em;
+
+  --font-mono-data-size: 14px;
+  --font-mono-data-weight: 500;
+  --font-mono-data-line: 20px;
+
+  /* Radius — DESIGN.md frontmatter "rounded" */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  --radius-control: 0.25rem; /* DESIGN.md prose: buttons/inputs = 4px */
+  --radius-card: 0.5rem; /* DESIGN.md prose: cards/containers = 8px */
+
+  /* Spacing — DESIGN.md frontmatter "spacing" + prose's 8px rhythm */
+  --space-container-max: 1440px;
+  --space-gutter: 1.5rem;
+  --space-page-margin: 2rem;
+  --space-3xs: 0.25rem; /* 4px */
+  --space-xs: 0.5rem; /* 8px, stack-sm */
+  --space-sm: 0.75rem; /* 12px */
+  --space-md: 1rem; /* 16px, stack-md */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px, stack-lg */
+  --space-2xl: 3rem; /* 48px */
+  --space-3xl: 4rem; /* 64px */
+
+  /* Sidebar shell */
+  --sidebar-width: 260px;
+}

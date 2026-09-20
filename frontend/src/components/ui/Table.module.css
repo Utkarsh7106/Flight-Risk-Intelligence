@@ -1,0 +1,62 @@
+.scrollContainer {
+  overflow-x: auto;
+  border: 1px solid var(--color-elevation-1-border);
+  border-radius: var(--radius-card);
+  background: var(--color-elevation-1-bg);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-label-md-size);
+  font-weight: var(--font-label-md-weight);
+  letter-spacing: var(--font-label-md-tracking);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-elevation-1-border);
+  white-space: nowrap;
+}
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortableHeader:hover {
+  color: var(--color-on-surface);
+}
+
+.table tbody tr {
+  height: 40px;
+}
+
+.table tbody tr:nth-child(even) {
+  background: var(--color-surface-container-lowest);
+}
+
+.table tbody tr:nth-child(odd) {
+  background: var(--color-surface-container-low);
+}
+
+.table tbody tr:hover {
+  background: var(--color-ai-insight-bg);
+}
+
+.table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-elevation-1-border);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
