@@ -1,5 +1,6 @@
 .sidebar {
   width: var(--sidebar-width);
+  height: 100vh;
   flex-shrink: 0;
   background: var(--color-primary);
   color: var(--color-on-primary);
@@ -7,6 +8,7 @@
   flex-direction: column;
   padding: var(--space-lg) var(--space-md);
   gap: var(--space-xl);
+  overflow-y: auto;
 }
 
 .brand {

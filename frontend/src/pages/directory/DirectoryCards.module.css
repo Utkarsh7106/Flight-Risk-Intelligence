@@ -31,6 +31,7 @@
 .metaRow {
   display: flex;
   justify-content: space-between;
+  gap: var(--space-md);
   padding: var(--space-xs) 0;
   border-top: 1px solid var(--color-elevation-1-border);
 }
@@ -41,6 +42,7 @@
 
 .metaLabel {
   color: var(--color-on-surface-variant);
+  flex-shrink: 0;
 }
 
 .metaValue {
