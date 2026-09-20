@@ -123,6 +123,7 @@ TEST_ACCOUNTS = [
 SEED_EMPLOYEES = [
     {
         "key": "ananya_krishnan", "employee_code": "EMP1001", "full_name": "Ananya Krishnan",
+        "gender": "Female",
         "business_unit_name": "Business Function and Media", "department_name": "Growth and Strategy",
         "grade": "L6", "designation": "Group Head, Growth", "manager_key": None, "location": "Mumbai",
         "date_of_joining": dt.date(2016, 4, 11), "ctc_annual": 3800000,
@@ -133,6 +134,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "devika_rao", "employee_code": "EMP1002", "full_name": "Devika Rao",
+        "gender": "Female",
         "business_unit_name": "Business Function and Media", "department_name": "Bidable Performance",
         "grade": "L4", "designation": "Manager, Performance Marketing", "manager_key": "ananya_krishnan",
         "location": "Bengaluru", "date_of_joining": dt.date(2019, 7, 22), "ctc_annual": 2150000,
@@ -143,6 +145,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "ishaan_bhatt", "employee_code": "EMP1003", "full_name": "Ishaan Bhatt",
+        "gender": "Male",
         "business_unit_name": "Business Function and Media", "department_name": "SEO",
         "grade": "L2", "designation": "SEO Specialist", "manager_key": "devika_rao",
         "location": "Pune", "date_of_joining": dt.date(2023, 1, 9), "ctc_annual": 950000,
@@ -152,6 +155,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "naveen_subramaniam", "employee_code": "EMP1004", "full_name": "Naveen Subramaniam",
+        "gender": "Male",
         "business_unit_name": "Business Function and Media", "department_name": "Client Success",
         "grade": "L3", "designation": "Client Success Lead", "manager_key": "ananya_krishnan",
         "location": "Chennai", "date_of_joining": dt.date(2021, 11, 15), "ctc_annual": 1600000,
@@ -161,6 +165,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "vikram_nair", "employee_code": "EMP1005", "full_name": "Vikram Nair",
+        "gender": "Male",
         "business_unit_name": "Data Quark", "department_name": "Data Quark Sales",
         "grade": "L5", "designation": "Senior Manager, Sales", "manager_key": None,
         "location": "Bengaluru", "date_of_joining": dt.date(2017, 2, 1), "ctc_annual": 3200000,
@@ -171,6 +176,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "sneha_iyer", "employee_code": "EMP1006", "full_name": "Sneha Iyer",
+        "gender": "Female",
         "business_unit_name": "Data Quark", "department_name": "Digital Analytics",
         "grade": "L3", "designation": "Analytics Lead", "manager_key": "vikram_nair",
         "location": "Hyderabad", "date_of_joining": dt.date(2020, 6, 18), "ctc_annual": 1750000,
@@ -181,6 +187,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "rohan_verma", "employee_code": "EMP1007", "full_name": "Rohan Verma",
+        "gender": "Male",
         "business_unit_name": "Data Quark", "department_name": "Product and Consulting",
         "grade": "L4", "designation": "Principal Consultant", "manager_key": "ananya_krishnan",
         "location": "Gurugram", "date_of_joining": dt.date(2018, 9, 3), "ctc_annual": 2600000,
@@ -191,6 +198,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "meera_pillai", "employee_code": "EMP1008", "full_name": "Meera Pillai",
+        "gender": "Female",
         "business_unit_name": "Data Quark", "department_name": "Unified Data Solutions",
         "grade": "L1", "designation": "Associate Consultant", "manager_key": "vikram_nair",
         "location": "Noida", "date_of_joining": dt.date(2024, 3, 11), "ctc_annual": 850000,
@@ -200,6 +208,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "ritika_desai", "employee_code": "EMP1009", "full_name": "Ritika Desai",
+        "gender": "Female",
         "business_unit_name": "Enabling Functions", "department_name": "Finance",
         "grade": "L5", "designation": "Finance Controller", "manager_key": None,
         "location": "Mumbai", "date_of_joining": dt.date(2015, 8, 20), "ctc_annual": 3500000,
@@ -210,6 +219,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "arnav_chatterjee", "employee_code": "EMP1010", "full_name": "Arnav Chatterjee",
+        "gender": "Male",
         "business_unit_name": "Enabling Functions", "department_name": "Growth",
         "grade": "L3", "designation": "Growth Manager", "manager_key": "ritika_desai",
         "location": "Kolkata", "date_of_joining": dt.date(2022, 2, 14), "ctc_annual": 1500000,
@@ -219,6 +229,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "divya_menon", "employee_code": "EMP1011", "full_name": "Divya Menon",
+        "gender": "Female",
         "business_unit_name": "Enabling Functions", "department_name": "Marketing and PR",
         "grade": "L3", "designation": "PR Manager", "manager_key": "ritika_desai",
         "location": "Ahmedabad", "date_of_joining": dt.date(2021, 5, 5), "ctc_annual": 1650000,
@@ -229,6 +240,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "yusuf_sheikh", "employee_code": "EMP1012", "full_name": "Yusuf Sheikh",
+        "gender": "Male",
         "business_unit_name": "Enabling Functions", "department_name": "People Management",
         "grade": "L2", "designation": "HR Business Partner", "manager_key": "ritika_desai",
         "location": "Pune", "date_of_joining": dt.date(2023, 8, 1), "ctc_annual": 1100000,
@@ -238,6 +250,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "tanvi_joshi", "employee_code": "EMP1013", "full_name": "Tanvi Joshi",
+        "gender": "Female",
         "business_unit_name": "SP Creative", "department_name": "Administration",
         "grade": "L4", "designation": "Admin Head", "manager_key": None,
         "location": "Mumbai", "date_of_joining": dt.date(2014, 1, 10), "ctc_annual": 2400000,
@@ -248,6 +261,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "kabir_malhotra", "employee_code": "EMP1014", "full_name": "Kabir Malhotra",
+        "gender": "Male",
         "business_unit_name": "SP Creative", "department_name": "Finance and Accounting",
         "grade": "L3", "designation": "Accounts Manager", "manager_key": "tanvi_joshi",
         "location": "Bengaluru", "date_of_joining": dt.date(2020, 10, 19), "ctc_annual": 1450000,
@@ -257,6 +271,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "zara_ahmed", "employee_code": "EMP1015", "full_name": "Zara Ahmed",
+        "gender": "Female",
         "business_unit_name": "SP Creative", "department_name": "Social",
         "grade": "L2", "designation": "Social Media Executive", "manager_key": "tanvi_joshi",
         "location": "Chennai", "date_of_joining": dt.date(2024, 6, 1), "ctc_annual": 900000,
@@ -266,6 +281,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "farhan_qureshi", "employee_code": "EMP1016", "full_name": "Farhan Qureshi",
+        "gender": "Male",
         "business_unit_name": "SP Creative", "department_name": "Strategy and Growth",
         "grade": "L4", "designation": "Strategy Manager", "manager_key": "tanvi_joshi",
         "location": "Hyderabad", "date_of_joining": dt.date(2019, 12, 2), "ctc_annual": 2000000,
@@ -276,6 +292,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "aarav_kapoor", "employee_code": "EMP1017", "full_name": "Aarav Kapoor",
+        "gender": "Male",
         "business_unit_name": "UI/UX", "department_name": "Design",
         "grade": "L5", "designation": "Design Head", "manager_key": None,
         "location": "Bengaluru", "date_of_joining": dt.date(2017, 6, 12), "ctc_annual": 2900000,
@@ -286,6 +303,7 @@ SEED_EMPLOYEES = [
     },
     {
         "key": "nisha_bansal", "employee_code": "EMP1018", "full_name": "Nisha Bansal",
+        "gender": "Female",
         "business_unit_name": "UI/UX", "department_name": "Design",
         "grade": "L2", "designation": "UI Designer", "manager_key": "aarav_kapoor",
         "location": "Pune", "date_of_joining": dt.date(2023, 4, 25), "ctc_annual": 1050000,
@@ -319,6 +337,7 @@ def seed_employees(db: Session, bu_by_name: dict[str, BusinessUnit]) -> None:
         employee = Employee(
             employee_code=spec["employee_code"],
             full_name=spec["full_name"],
+            gender=spec["gender"],
             date_of_joining=spec["date_of_joining"],
             department_id=department.id,
             designation=spec["designation"],

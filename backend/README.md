@@ -61,3 +61,12 @@ fields are never returned for a row the caller can't see, gender/DOB/phone
 never appear in any response, a manager in a different BU resolves to
 `null` rather than leaking a name, and a missing RLS session context
 returns zero rows rather than erroring).
+
+Module 2 (Workforce Health): the scoring model's math against
+hand-calculated inputs, a structural regression test proving forbidden
+attributes (gender/BU/department/manager identity/location) genuinely
+cannot reach `score_employee()`, the recommendation engine's rule
+coverage, the fairness-audit statistics engine, RLS isolation on the new
+score endpoints (mirroring the directory tests above), and an adversarial
+check that every seeded BU Head account is refused the fairness-audit
+endpoint (HR-only, non-negotiable — see `MODULE2_REFERENCE.md`).

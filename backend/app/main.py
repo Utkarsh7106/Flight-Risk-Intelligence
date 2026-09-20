@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import auth, employees
+from app.routers import auth, employees, workforce_health
 
 app = FastAPI(title="Flight Risk Intelligence API")
 
@@ -16,6 +16,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(employees.router)
+app.include_router(workforce_health.router)
 
 
 @app.get("/health")

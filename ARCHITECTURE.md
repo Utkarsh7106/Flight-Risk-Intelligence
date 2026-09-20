@@ -29,7 +29,8 @@ backend/
     models/              # SQLAlchemy ORM models — one module per table
     schemas/              # Pydantic request/response schemas
     security/              # password hashing, JWT encode/decode, auth dependencies
-    routers/                # FastAPI routers (auth first; directory/module routers land later)
+    routers/                # FastAPI routers: auth, employees (directory), workforce_health (Module 2)
+    scoring/                 # Module 2's pure logic: scoring model, recommendations, fairness audit
     main.py                  # app factory, CORS, router registration
   alembic/                    # schema migrations (source of truth for DB shape)
   scripts/
@@ -87,6 +88,8 @@ The ~320-employee panel this build is anchored to was constructed by the origina
 ## ML methodology guardrail
 
 Module 2 is a transparent, hand-weighted scorecard computed on demand — not a trained model, and never presented as one. Its scoring function signature structurally excludes gender, BU, department, manager, and location as direct inputs. Those excluded attributes are retained for a separate fairness/proxy audit (disparate impact / proxy leakage via CTC, grade, dept-attrition-rate), gated behind an HR-only endpoint.
+
+**Built** (see `MODULE2_REFERENCE.md` for the full reasoning): `app/scoring/model.py` (five-factor weighted scorecard: promotion stagnation, compensation trajectory vs. same-grade peers, engagement, manager effectiveness, a performance-recognition-gap bonus — 0-100 score, four risk bands, a genuine per-driver breakdown), `app/scoring/recommendations.py` (deterministic driver -> intervention lookup, no LLM involved), `app/scoring/fairness_audit.py` (group-distribution + manager-team checks with an honest small-sample confidence bucket), and `app/routers/workforce_health.py` (`/workforce-health/summary`, `/workforce-health/employees/{id}`, `/workforce-health/fairness-audit` — the last gated by `require_hr`, adversarially verified against every seeded BU Head account).
 
 Module 3 trains a real model with SHAP explainability, but on a separate, larger, synthetic dataset built on the same schema, own table namespace, clearly labeled in the UI as a demonstration dataset distinct from the baseline panel. IBM HR Attrition's correlation patterns inform label generation; names, BUs, and departments in the synthetic set still follow the Indian-names and real-org-structure rules below.
 
