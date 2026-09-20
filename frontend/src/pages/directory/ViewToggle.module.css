@@ -1,0 +1,24 @@
+.toggle {
+  display: inline-flex;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+
+.option {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface-variant);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-body-md-size);
+}
+
+.option:not(:last-child) {
+  border-right: 1px solid var(--color-outline-variant);
+}
+
+.optionActive {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}

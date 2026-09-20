@@ -1,0 +1,56 @@
+.page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-elevation-0-bg);
+  padding: var(--space-xl);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.brand {
+  text-align: center;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.passwordRow {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  right: var(--space-sm);
+  top: 34px;
+  background: none;
+  border: none;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--font-body-md-size);
+}
+
+.errorBanner {
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+  border-radius: var(--radius-control);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.hint {
+  text-align: center;
+  color: var(--color-on-surface-variant);
+}

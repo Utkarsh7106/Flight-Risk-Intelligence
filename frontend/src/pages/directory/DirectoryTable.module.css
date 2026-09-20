@@ -1,0 +1,36 @@
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.nameText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fullName {
+  color: var(--color-on-surface);
+}
+
+.designation {
+  color: var(--color-on-surface-variant);
+}
+
+.orgCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.buName {
+  color: var(--color-on-surface);
+}
+
+.deptName {
+  color: var(--color-on-surface-variant);
+}
+
+.muted {
+  color: var(--color-on-surface-variant);
+}

@@ -1,0 +1,56 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.cardHeaderText {
+  min-width: 0;
+}
+
+.fullName {
+  color: var(--color-on-surface);
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.designation {
+  color: var(--color-on-surface-variant);
+  display: block;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-xs) 0;
+  border-top: 1px solid var(--color-elevation-1-border);
+}
+
+.metaRow:first-of-type {
+  border-top: none;
+}
+
+.metaLabel {
+  color: var(--color-on-surface-variant);
+}
+
+.metaValue {
+  color: var(--color-on-surface);
+  text-align: right;
+}
+
+.footer {
+  margin-top: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,117 @@
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg) var(--space-md);
+  gap: var(--space-xl);
+}
+
+.brand {
+  color: var(--color-on-primary);
+  padding: 0 var(--space-sm);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  flex: 1;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-control);
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-on-primary);
+}
+
+.navLinkActive {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--color-on-primary);
+  font-weight: 600;
+}
+
+.navLinkDisabled {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-control);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+}
+
+.comingSoonBadge {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.75);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-sm);
+}
+
+.identityText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.identityName {
+  color: var(--color-on-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.identityRole {
+  color: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutButton {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-control);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
