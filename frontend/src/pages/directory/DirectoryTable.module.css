@@ -12,6 +12,11 @@
 
 .fullName {
   color: var(--color-on-surface);
+  text-decoration: none;
+}
+
+.fullName:hover {
+  text-decoration: underline;
 }
 
 .designation {

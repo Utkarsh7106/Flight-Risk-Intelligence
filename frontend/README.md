@@ -59,7 +59,18 @@ Password for all seeded accounts: `ChangeMe123!`
   `useEmployeeDirectory.ts`'s header comment states the invariant this
   whole feature depends on: **no client-side role/BU filtering, ever**
   — the backend's Row-Level Security is the only thing that scopes rows,
-  and this code only renders what it's given.
+  and this code only renders what it's given. Each row now links through
+  to its Workforce Health score.
+- `src/pages/workforce-health/` — Module 2's frontend: an org-wide (HR)
+  or BU-scoped (BU Head, same component tree either way — see
+  `WorkforceHealthPage.tsx`'s header comment) risk-band overview using
+  `KpiCard`/`InsightCallout` for the first time, a per-employee
+  score/driver-breakdown/recommendations drill-down
+  (`EmployeeScoreDrilldownPage.tsx` — reachable from the directory or the
+  overview's hotspot list), and an HR-only Fairness Audit view. The
+  fairness audit page's role check is a UI courtesy only (skips the
+  request and shows a message); the real enforcement is the backend's
+  `require_hr` gate — see `MODULE2_REFERENCE.md`.
 
 ## Known rough edges (honest account, not hidden)
 
@@ -71,18 +82,30 @@ Password for all seeded accounts: `ChangeMe123!`
   at today's ~18-row dataset size; the BU filter would silently miss
   business units past the backend's 200-row query cap if the panel
   grows substantially. A real endpoint would remove both workarounds.
-- **No employee detail page.** Only the list view exists — clicking a
-  row doesn't go anywhere yet.
-- **`KpiCard` and `InsightCallout`** exist as real, styled components
-  but nothing renders them with real content — there's no Module 2/3
-  data yet to put in them.
+- **`KpiCard` and `InsightCallout`** are now wired to real Module 2 data
+  on the Workforce Health overview (see `src/pages/workforce-health/`).
+- **Risk Analysis (Module 3)** still has no screen — the sidebar entry
+  stays disabled with a "Soon" badge, honestly, since nothing exists
+  behind it yet.
 
 ## Tests
 
 None yet. The backend has a pytest suite proving Row-Level Security
 holds through the real HTTP path (`../backend/tests/`); this frontend
-was verified manually by logging in as HR and three different BU Head
-accounts through the running app and checking each saw the correct,
-correctly-scoped data — not by an automated frontend test suite, which
-doesn't exist yet. Worth adding before this grows much further,
-especially around the directory's filter/sort state.
+was verified manually by logging in as HR and BU Head accounts through
+the running app and checking each saw the correct, correctly-scoped
+data — not by an automated frontend test suite, which doesn't exist yet.
+Worth adding before this grows much further, especially around the
+directory's filter/sort state.
+
+Module 2's frontend was verified the same way: as HR, the Workforce
+Health overview, an employee drill-down, and the Fairness Audit page
+(including its small-sample "too small to assess" handling and the
+manager team-risk table); as a BU Head, the same overview correctly
+scoped to one business unit, a same-BU employee drill-down (with a
+visibly smaller compensation peer group than HR sees for the same
+grade — the intended effect of RLS-scoped peer comparisons, not a bug),
+a cross-BU employee id resolving to "not found" exactly like the
+directory already does, the Fairness Audit nav entry absent from the
+sidebar, and direct navigation to `/workforce-health/fairness-audit`
+showing the courtesy message rather than attempting the request.

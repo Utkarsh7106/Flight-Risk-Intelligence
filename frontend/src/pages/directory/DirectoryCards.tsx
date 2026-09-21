@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Avatar } from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
 import { Card } from '../../components/ui/Card';
@@ -69,6 +70,9 @@ export function DirectoryCards({ employees }: DirectoryCardsProps) {
                 Separated
               </Badge>
             )}
+            <Link to={`/workforce-health/employees/${employee.id}`} className={styles.scoreLink}>
+              View score →
+            </Link>
           </div>
         </Card>
       ))}

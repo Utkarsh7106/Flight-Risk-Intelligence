@@ -1,0 +1,53 @@
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.title {
+  color: var(--color-on-surface);
+}
+
+.subtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: 2px;
+  max-width: 70ch;
+}
+
+.stateBox {
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+}
+
+.errorBox {
+  padding: var(--space-lg);
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+  border-radius: var(--radius-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.section {
+  margin-top: var(--space-lg);
+  overflow-x: auto;
+}
+
+.sectionTitle {
+  color: var(--color-on-surface);
+}
+
+.sectionSubtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: var(--space-3xs);
+  margin-bottom: var(--space-md);
+}

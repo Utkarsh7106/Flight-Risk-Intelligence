@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Avatar } from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
 import { Table, SortableHeader } from '../../components/ui/Table';
@@ -74,7 +75,9 @@ export function DirectoryTable({ employees, sortBy, sortDir, onToggleSort }: Dir
               <div className={styles.nameCell}>
                 <Avatar fullName={employee.full_name} size="sm" />
                 <div className={styles.nameText}>
-                  <span className={`${styles.fullName} text-body-md`}>{employee.full_name}</span>
+                  <Link to={`/workforce-health/employees/${employee.id}`} className={`${styles.fullName} text-body-md`}>
+                    {employee.full_name}
+                  </Link>
                   <span className={`${styles.designation} text-label-md`}>{employee.designation ?? '—'}</span>
                 </div>
               </div>

@@ -98,3 +98,111 @@ export interface EmployeeQuery {
   limit?: number;
   offset?: number;
 }
+
+/**
+ * Mirrors backend/app/schemas/workforce_health.py — Module 2. See
+ * MODULE2_REFERENCE.md and backend/app/scoring/model.py for what these
+ * fields mean; this file only mirrors shape, not logic.
+ */
+export type RiskBand = 'low' | 'medium' | 'high' | 'critical';
+
+export interface Driver {
+  key: string;
+  label: string;
+  explanation: string;
+  risk_points: number;
+  weight_share: number;
+}
+
+export interface Recommendation {
+  key: string;
+  title: string;
+  rationale: string;
+}
+
+export interface EmployeeScore {
+  employee_id: number;
+  full_name: string;
+  avatar_url: string | null;
+  designation: string | null;
+  grade: Grade;
+  business_unit: BusinessUnitRef;
+  department: DepartmentRef;
+  score: number;
+  band: RiskBand;
+  band_label: string;
+  data_completeness: number;
+  drivers: Driver[];
+  recommendations: Recommendation[];
+}
+
+export interface BandCounts {
+  low: number;
+  medium: number;
+  high: number;
+  critical: number;
+}
+
+export interface BusinessUnitSummary {
+  business_unit_id: number;
+  business_unit_name: string;
+  employee_count: number;
+  average_score: number;
+  band_counts: BandCounts;
+}
+
+export interface HotspotEmployee {
+  employee_id: number;
+  full_name: string;
+  business_unit_name: string;
+  department_name: string;
+  score: number;
+  band: RiskBand;
+}
+
+export interface WorkforceHealthSummary {
+  employee_count: number;
+  average_score: number;
+  band_counts: BandCounts;
+  business_units: BusinessUnitSummary[];
+  hotspots: HotspotEmployee[];
+}
+
+/** "insufficient_data" | "low" | "medium" | "higher" — a plain group-size
+ * bucket, deliberately not a p-value. See fairness_audit.py's docstring.
+ */
+export type AuditConfidence = 'insufficient_data' | 'low' | 'medium' | 'higher';
+
+export interface GroupStat {
+  group_value: string;
+  n: number;
+  mean_score: number;
+  gap_from_overall: number;
+  confidence: AuditConfidence;
+  flagged: boolean;
+}
+
+export interface AttributeAudit {
+  attribute: 'gender' | 'business_unit' | 'department' | 'location';
+  overall_mean: number;
+  overall_n: number;
+  groups: GroupStat[];
+  excluded_missing_data: number;
+}
+
+export interface ManagerAudit {
+  manager_id: number;
+  manager_name: string;
+  team_n: number;
+  team_mean_score: number;
+  gap_from_overall: number;
+  confidence: AuditConfidence;
+  flagged: boolean;
+}
+
+export interface FairnessAudit {
+  overall_mean_score: number;
+  overall_n: number;
+  attribute_audits: AttributeAudit[];
+  manager_audits: ManagerAudit[];
+}

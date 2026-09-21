@@ -54,6 +54,7 @@ frontend/
     pages/
       auth/                       # login screen
       directory/                   # Employee Directory — table + card views
+      workforce-health/            # Module 2: overview, employee drill-down, HR-only fairness audit
   .env.example
 design/
   stitch/                          # Stitch design exports: 9 screens + DESIGN.md (design-system doc)

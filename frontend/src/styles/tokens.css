@@ -30,6 +30,13 @@
   --color-risk-high: #dc2626; /* Red 600 */
   --color-risk-high-bg: #fef2f2;
   --color-risk-high-text: #b91c1c;
+  /* Not in DESIGN.md (its 3-tier "Colors" section predates Module 2's
+     4-band scorecard — see MODULE2_REFERENCE.md) — Red 900, a deliberately
+     darker extension of --color-risk-high so "Critical" reads as more
+     severe without introducing an unrelated hue. */
+  --color-risk-critical: #7f1d1d; /* Red 900 */
+  --color-risk-critical-bg: #fee2e2;
+  --color-risk-critical-text: #7f1d1d;
 
   /* Neutral / surface scale — DESIGN.md frontmatter (as generated) */
   --color-surface: #f7f9fb;

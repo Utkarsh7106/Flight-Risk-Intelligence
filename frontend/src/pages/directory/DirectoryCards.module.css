@@ -56,3 +56,13 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.scoreLink {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: var(--font-label-md-size);
+}
+
+.scoreLink:hover {
+  text-decoration: underline;
+}

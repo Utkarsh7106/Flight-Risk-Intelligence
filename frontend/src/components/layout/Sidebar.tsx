@@ -4,10 +4,13 @@ import { Avatar } from '../ui/Avatar';
 import styles from './Sidebar.module.css';
 
 /** Single sidebar, no top navbar — locked guardrail (ARCHITECTURE.md /
- * PROJECT_VISION.md "UI guardrails"). Workforce Health and Risk Analysis
- * are Module 2/3, not built yet: they render as disabled entries with a
- * "Coming soon" badge rather than real routes with placeholder data, per
- * the brief — there is nothing behind them to navigate to.
+ * PROJECT_VISION.md "UI guardrails"). Workforce Health (Module 2) is now
+ * real; Risk Analysis (Module 3, not built yet) still renders as a
+ * disabled "Coming soon" entry since there's nothing behind it. Fairness
+ * Audit only renders for HR accounts — this is a UI courtesy only, the
+ * real enforcement is backend/app/security/deps.py's require_hr gate on
+ * the endpoint itself (see MODULE2_REFERENCE.md); hiding the link here
+ * does not by itself make the audit HR-only.
  */
 export function Sidebar() {
   const { user, businessUnitName, logout } = useAuth();
@@ -34,10 +37,22 @@ export function Sidebar() {
           <span className="text-body-md">Employee Directory</span>
         </NavLink>
 
-        <span className={styles.navLinkDisabled} aria-disabled="true">
+        <NavLink
+          to="/workforce-health"
+          end
+          className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+        >
           <span className="text-body-md">Workforce Health</span>
-          <span className={styles.comingSoonBadge}>Soon</span>
-        </span>
+        </NavLink>
+
+        {user.role === 'hr' && (
+          <NavLink
+            to="/workforce-health/fairness-audit"
+            className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+          >
+            <span className="text-body-md">Fairness Audit</span>
+          </NavLink>
+        )}
 
         <span className={styles.navLinkDisabled} aria-disabled="true">
           <span className="text-body-md">Risk Analysis</span>

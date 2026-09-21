@@ -158,18 +158,31 @@ constraint). Don't "fix" this if you encounter it.
   replaced with real data via the API — never copied as-is.
 - **Module 1 frontend: functionally complete.** React + Vite + TS.
   Login (real API, no role toggle), auth context sourced from
-  `GET /auth/me`, single sidebar shell with Workforce Health/Risk
-  Analysis correctly shown as disabled "coming soon" entries, and the
-  Employee Directory (table + card views) wired to the real
-  `GET /employees` with its actual sort/filter/search surface. Verified
-  by actually logging in through the running app as HR and three
-  different BU Head accounts and checking each saw the correct,
-  correctly-scoped data — not just reading the code. See
-  `frontend/README.md` for the honestly-documented rough edges (no
-  `/business-units` endpoint yet, no employee detail page, no frontend
-  test suite yet).
-- **Not yet started:** Module 2 (Workforce Health Index scorecard +
-  fairness audit), Module 3 (ML/SHAP demo), Module 4 (departure-event
+  `GET /auth/me`, single sidebar shell, and the Employee Directory
+  (table + card views) wired to the real `GET /employees` with its
+  actual sort/filter/search surface. Verified by actually logging in
+  through the running app as HR and BU Head accounts and checking each
+  saw the correct, correctly-scoped data — not just reading the code.
+  See `frontend/README.md` for the honestly-documented rough edges (no
+  `/business-units` endpoint yet, no frontend test suite yet).
+- **Module 2 (Workforce Health Index): complete, backend and frontend.**
+  A transparent, hand-weighted scorecard (`backend/app/scoring/model.py`)
+  — five factors, documented weights, structurally excludes gender/BU/
+  department/manager identity/location as inputs (see
+  `test_scoring_structural.py`) — plus a deterministic, non-LLM
+  recommendation engine and an HR-only fairness/proxy-leakage audit,
+  all exposed via `/workforce-health/*` following the directory's
+  RLS-only enforcement pattern exactly. 60/60 backend tests passing.
+  Frontend: an activated "Workforce Health" nav item (org-wide for HR,
+  BU-scoped for a BU Head via the same component tree), the first real
+  use of `KpiCard`/`InsightCallout`, a per-employee score/driver-
+  breakdown/recommendations drill-down reachable from the directory or
+  the overview, and an HR-only Fairness Audit view (nav hidden for
+  non-HR as a courtesy; the real gate is backend-side, adversarially
+  verified against a BU Head login both via the API and by navigating
+  the running app directly). See `MODULE2_REFERENCE.md` for the full
+  reasoning behind every design choice.
+- **Not yet started:** Module 3 (ML/SHAP demo), Module 4 (departure-event
   capture, exports), any deployment/hosting setup.
 
 ## Deployment context (decided, not yet executed)

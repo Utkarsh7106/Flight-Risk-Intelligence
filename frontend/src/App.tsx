@@ -4,6 +4,9 @@ import { ProtectedRoute } from './routes/ProtectedRoute';
 import { AppShell } from './components/layout/AppShell';
 import { LoginPage } from './pages/auth/LoginPage';
 import { DirectoryPage } from './pages/directory/DirectoryPage';
+import { WorkforceHealthPage } from './pages/workforce-health/WorkforceHealthPage';
+import { EmployeeScoreDrilldownPage } from './pages/workforce-health/EmployeeScoreDrilldownPage';
+import { FairnessAuditPage } from './pages/workforce-health/FairnessAuditPage';
 
 export default function App() {
   return (
@@ -14,6 +17,9 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AppShell />}>
             <Route path="/directory" element={<DirectoryPage />} />
+            <Route path="/workforce-health" element={<WorkforceHealthPage />} />
+            <Route path="/workforce-health/employees/:id" element={<EmployeeScoreDrilldownPage />} />
+            <Route path="/workforce-health/fairness-audit" element={<FairnessAuditPage />} />
           </Route>
         </Route>
 
