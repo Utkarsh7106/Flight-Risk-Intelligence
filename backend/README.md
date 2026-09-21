@@ -70,3 +70,33 @@ coverage, the fairness-audit statistics engine, RLS isolation on the new
 score endpoints (mirroring the directory tests above), and an adversarial
 check that every seeded BU Head account is refused the fairness-audit
 endpoint (HR-only, non-negotiable — see `MODULE2_REFERENCE.md`).
+
+Module 3 (Risk Analysis / ML demo): a structural regression test
+mirroring Module 2's, proving `RawSignals`/`Features` (the label
+generator's and model's own input types) genuinely cannot carry
+gender/BU/department/manager/location, plus a test proving the label
+is not a deterministic function of the features (same feature values,
+many noise draws, must show real spread — see `MODULE3_REFERENCE.md`),
+and RLS isolation on `/risk-analysis/*` (mirroring the directory/
+workforce-health tests), including that `employment_status='separated'`
+rows (labeled training examples) 404 for every role, HR included.
+
+## Module 3's offline pipeline
+
+The synthetic dataset and trained model aren't built by the test suite
+or by `seed_reference_data.py` — run these once, in order, after the
+usual setup above (they need `requirements-ml.txt`, not part of the
+app's runtime `requirements.txt`):
+
+```bash
+pip install -r requirements-ml.txt
+python -m app.synthetic.generate   # ~3000-row synthetic workforce
+python -m app.synthetic.train      # trains, evaluates, scores, persists SHAP
+```
+
+`generate` prints the calibrated intercept and realized departure rate;
+`train` prints held-out ROC-AUC and a base-rate-matched precision/recall
+readout. Re-running either is safe (both are idempotent/deterministic
+under a fixed seed) and required after almost any change to
+`app/synthetic/`. See `MODULE3_REFERENCE.md` for what these numbers mean
+and why the label is generated the way it is.

@@ -182,8 +182,25 @@ constraint). Don't "fix" this if you encounter it.
   verified against a BU Head login both via the API and by navigating
   the running app directly). See `MODULE2_REFERENCE.md` for the full
   reasoning behind every design choice.
-- **Not yet started:** Module 3 (ML/SHAP demo), Module 4 (departure-event
-  capture, exports), any deployment/hosting setup.
+- **Module 3 (ML/SHAP demonstration): complete, backend and frontend.**
+  A real trained classifier (`RandomForestClassifier`) + real SHAP
+  (`TreeExplainer`) explanations, on a separate ~3000-row synthetic
+  dataset (`synthetic_employee`, own table namespace) with a
+  departure label generated independently of Module 2's formula — a
+  logistic/log-odds process with genuine per-employee noise, informed
+  by IBM HR Attrition's general correlation directions rather than
+  fit against it — so training on it isn't circular. Held-out ROC-AUC
+  0.728, real stratified train/test split. Same forbidden-attribute
+  exclusion and RLS/allow-list enforcement pattern as Module 2.
+  Frontend: activated "Risk Analysis" nav item (was a disabled "Soon"
+  placeholder), an overview and per-employee drill-down reusing
+  Module 2's driver-breakdown visual pattern for the SHAP output, and
+  a persistent, visually distinct "demonstration dataset" banner on
+  every screen so this can never be mistaken for the real baseline
+  panel. See `MODULE3_REFERENCE.md` for the full reasoning, especially
+  the label-generation approach. 77/77 backend tests passing.
+- **Not yet started:** Module 4 (departure-event capture, exports),
+  any deployment/hosting setup.
 
 ## Deployment context (decided, not yet executed)
 

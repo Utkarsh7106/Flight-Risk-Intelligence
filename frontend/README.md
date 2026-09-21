@@ -44,9 +44,9 @@ Password for all seeded accounts: `ChangeMe123!`
   is explained there.
 - `src/components/ui/` — the reusable component library the rest of the
   app is built from (Avatar, Badge, Card, Table, Button, form controls,
-  plus `KpiCard`/`InsightCallout` — built ahead of any screen that uses
-  them, per `DESIGN.md`'s component patterns; nothing wires them to real
-  data yet since Module 2/3 don't exist).
+  plus `KpiCard`/`InsightCallout`/`RiskBandDistribution` — built ahead of
+  Module 2, per `DESIGN.md`'s component patterns, and now wired to real
+  data by both Module 2 and Module 3).
 - `src/api/` — typed fetch client. Every request sends
   `credentials: 'include'`; nothing in this app reads, stores, or
   attaches an auth token itself — the httpOnly session cookie does all
@@ -71,6 +71,17 @@ Password for all seeded accounts: `ChangeMe123!`
   fairness audit page's role check is a UI courtesy only (skips the
   request and shows a message); the real enforcement is the backend's
   `require_hr` gate — see `MODULE2_REFERENCE.md`.
+- `src/pages/risk-analysis/` — Module 3's frontend: an overview and
+  per-employee drill-down structurally identical in shape to Module 2's
+  (same RLS-scoped-by-the-server pattern, same component tree for both
+  roles), but over `/risk-analysis/*` and a real trained model's SHAP
+  output rather than Module 2's hand-weighted formula.
+  `RiskDriverBreakdown` deliberately reuses `DriverBreakdown`'s visual
+  language, adapted for signed SHAP contributions. `DemoDatasetBanner`
+  renders on every screen in this module with a visually distinct
+  (amber, not Module 2's cyan `InsightCallout`) treatment so it can
+  never be mistaken for real baseline-panel data — see
+  `MODULE3_REFERENCE.md`.
 
 ## Known rough edges (honest account, not hidden)
 
@@ -82,11 +93,15 @@ Password for all seeded accounts: `ChangeMe123!`
   at today's ~18-row dataset size; the BU filter would silently miss
   business units past the backend's 200-row query cap if the panel
   grows substantially. A real endpoint would remove both workarounds.
-- **`KpiCard` and `InsightCallout`** are now wired to real Module 2 data
-  on the Workforce Health overview (see `src/pages/workforce-health/`).
-- **Risk Analysis (Module 3)** still has no screen — the sidebar entry
-  stays disabled with a "Soon" badge, honestly, since nothing exists
-  behind it yet.
+- **`KpiCard`, `InsightCallout`, and `RiskBandDistribution`** are now
+  wired to real Module 2 and Module 3 data (see
+  `src/pages/workforce-health/` and `src/pages/risk-analysis/`).
+- **No paginated Risk Analysis employee list/table view** — the backend's
+  `GET /risk-analysis/employees` endpoint exists and is allow-list
+  sorted/filtered like the directory, but the frontend only consumes the
+  summary's hotspot list and per-employee drill-down, matching Module 2's
+  own shipped scope (no full paginated table there either). A future
+  session could add one using `useEmployeeDirectory.ts`'s pattern.
 
 ## Tests
 
@@ -109,3 +124,12 @@ a cross-BU employee id resolving to "not found" exactly like the
 directory already does, the Fairness Audit nav entry absent from the
 sidebar, and direct navigation to `/workforce-health/fairness-audit`
 showing the courtesy message rather than attempting the request.
+
+Module 3's frontend was verified the same way, using Playwright to
+drive a real Chromium browser against a real running server: as HR, the
+Risk Analysis overview (KPIs, risk-band distribution, per-BU breakdown,
+hotspot list) and a real SHAP driver breakdown on drill-down; as a BU
+Head, the same overview correctly scoped to one business unit, and —
+the adversarial check — navigating directly to an HR-visible employee's
+`/risk-analysis/employees/{id}` URL, which resolved to a clean "Employee
+not found" rather than leaking cross-BU data.

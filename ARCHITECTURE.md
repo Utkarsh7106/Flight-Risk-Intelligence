@@ -29,9 +29,10 @@ backend/
     models/              # SQLAlchemy ORM models — one module per table
     schemas/              # Pydantic request/response schemas
     security/              # password hashing, JWT encode/decode, auth dependencies
-    routers/                # FastAPI routers: auth, employees (directory), workforce_health (Module 2)
+    routers/                # FastAPI routers: auth, employees (directory), workforce_health (Module 2), risk_analysis (Module 3)
     scoring/                 # Module 2's pure logic: scoring model, recommendations, fairness audit
-    main.py                  # app factory, CORS, router registration
+    synthetic/                # Module 3's offline pipeline: dataset generation, label generator, feature engineering, model training + SHAP (see MODULE3_REFERENCE.md)
+    main.py                     # app factory, CORS, router registration
   alembic/                    # schema migrations (source of truth for DB shape)
   scripts/
     seed_reference_data.py     # idempotent seed: business units, departments, test accounts
@@ -92,7 +93,9 @@ Module 2 is a transparent, hand-weighted scorecard computed on demand — not a 
 
 **Built** (see `MODULE2_REFERENCE.md` for the full reasoning): `app/scoring/model.py` (five-factor weighted scorecard: promotion stagnation, compensation trajectory vs. same-grade peers, engagement, manager effectiveness, a performance-recognition-gap bonus — 0-100 score, four risk bands, a genuine per-driver breakdown), `app/scoring/recommendations.py` (deterministic driver -> intervention lookup, no LLM involved), `app/scoring/fairness_audit.py` (group-distribution + manager-team checks with an honest small-sample confidence bucket), and `app/routers/workforce_health.py` (`/workforce-health/summary`, `/workforce-health/employees/{id}`, `/workforce-health/fairness-audit` — the last gated by `require_hr`, adversarially verified against every seeded BU Head account).
 
-Module 3 trains a real model with SHAP explainability, but on a separate, larger, synthetic dataset built on the same schema, own table namespace, clearly labeled in the UI as a demonstration dataset distinct from the baseline panel. IBM HR Attrition's correlation patterns inform label generation; names, BUs, and departments in the synthetic set still follow the Indian-names and real-org-structure rules below.
+Module 3 trains a real model with SHAP explainability, on a separate, larger, synthetic dataset built on the same schema, own table namespace, clearly labeled in the UI as a demonstration dataset distinct from the baseline panel. IBM HR Attrition's correlation patterns inform label generation; names, BUs, and departments in the synthetic set still follow the Indian-names and real-org-structure rules below.
+
+**Built** (see `MODULE3_REFERENCE.md` for the full reasoning, especially the label-generation approach): `app/synthetic/generate.py` (3000-row synthetic workforce, own `synthetic_employee` table, same RLS pattern as `employee`), `app/synthetic/label.py` (the departure label — a logistic/log-odds generator structurally and numerically unrelated to Module 2's linear scorecard, with Gaussian noise in log-odds space so the label is never a deterministic function of the features), `app/synthetic/features.py` (shared feature engineering, structurally excludes gender/BU/department/manager/location — same discipline as `app/scoring/model.py`'s `ScoringInputs`), `app/synthetic/train.py` (real stratified 80/20 train/test split, `RandomForestClassifier`, held-out ROC-AUC 0.728, real per-employee SHAP `TreeExplainer` values persisted for the active/current-workforce subset), and `app/routers/risk_analysis.py` (`/risk-analysis/summary`, `/risk-analysis/employees`, `/risk-analysis/employees/{id}` — same RLS/allow-list pattern as every other router; no fairness-audit endpoint here, that stays Module 2's). Offline-only ML dependencies (numpy/scikit-learn/shap) live in `backend/requirements-ml.txt`, separate from the app's runtime `requirements.txt` — predictions/SHAP are precomputed and persisted, not inferred per live request.
 
 ## Security guardrails
 
