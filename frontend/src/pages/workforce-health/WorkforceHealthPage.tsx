@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/Card';
 import { KpiCard } from '../../components/ui/KpiCard';
 import { InsightCallout } from '../../components/ui/InsightCallout';
 import { useWorkforceHealthSummary } from './useWorkforceHealthSummary';
-import { RiskBandDistribution } from './RiskBandDistribution';
+import { RiskBandDistribution } from '../../components/ui/RiskBandDistribution';
 import { BusinessUnitBreakdown } from './BusinessUnitBreakdown';
 import { HotspotList } from './HotspotList';
 import { buildInsightSentence } from './insightSentence';

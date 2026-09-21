@@ -7,6 +7,8 @@ import { DirectoryPage } from './pages/directory/DirectoryPage';
 import { WorkforceHealthPage } from './pages/workforce-health/WorkforceHealthPage';
 import { EmployeeScoreDrilldownPage } from './pages/workforce-health/EmployeeScoreDrilldownPage';
 import { FairnessAuditPage } from './pages/workforce-health/FairnessAuditPage';
+import { RiskAnalysisPage } from './pages/risk-analysis/RiskAnalysisPage';
+import { RiskEmployeeDrilldownPage } from './pages/risk-analysis/RiskEmployeeDrilldownPage';
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
             <Route path="/workforce-health" element={<WorkforceHealthPage />} />
             <Route path="/workforce-health/employees/:id" element={<EmployeeScoreDrilldownPage />} />
             <Route path="/workforce-health/fairness-audit" element={<FairnessAuditPage />} />
+            <Route path="/risk-analysis" element={<RiskAnalysisPage />} />
+            <Route path="/risk-analysis/employees/:id" element={<RiskEmployeeDrilldownPage />} />
           </Route>
         </Route>
 

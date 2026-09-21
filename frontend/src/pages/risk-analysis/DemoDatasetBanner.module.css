@@ -1,0 +1,14 @@
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-risk-medium-bg);
+  border: 1px solid var(--color-risk-medium);
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-lg);
+}
+
+.text {
+  color: var(--color-risk-medium-text);
+}

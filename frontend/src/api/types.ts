@@ -206,3 +206,80 @@ export interface FairnessAudit {
   attribute_audits: AttributeAudit[];
   manager_audits: ManagerAudit[];
 }
+
+/**
+ * Mirrors backend/app/schemas/risk_analysis.py — Module 3, the ML/SHAP
+ * demonstration surface. This is a SEPARATE synthetic dataset, never the
+ * Employee Directory or Workforce Health baseline panel — see
+ * MODULE3_REFERENCE.md. `RiskDriver.shap_value` is a real, signed SHAP
+ * contribution (positive = pushed predicted risk up), not a 0-100
+ * risk_points/weight_share pair like Module 2's Driver — the two types
+ * are deliberately not unified, since the underlying computation differs
+ * even though the UI reuses the same visual pattern.
+ */
+export interface RiskDriver {
+  feature: string;
+  label: string;
+  value: number;
+  shap_value: number;
+  explanation: string;
+}
+
+export interface SyntheticEmployeeSummary {
+  id: number;
+  employee_code: string;
+  full_name: string;
+  avatar_url: string | null;
+  designation: string | null;
+  grade: Grade;
+  business_unit: BusinessUnitRef;
+  department: DepartmentRef;
+  predicted_probability: number;
+  risk_band: RiskBand;
+}
+
+export interface SyntheticEmployeeListResponse {
+  items: SyntheticEmployeeSummary[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export interface SyntheticEmployeeDetail {
+  id: number;
+  employee_code: string;
+  full_name: string;
+  avatar_url: string | null;
+  designation: string | null;
+  grade: Grade;
+  business_unit: BusinessUnitRef;
+  department: DepartmentRef;
+  predicted_probability: number;
+  risk_band: RiskBand;
+  drivers: RiskDriver[];
+}
+
+export interface RiskBusinessUnitSummary {
+  business_unit_id: number;
+  business_unit_name: string;
+  employee_count: number;
+  average_probability: number;
+  band_counts: BandCounts;
+}
+
+export interface RiskHotspotEmployee {
+  employee_id: number;
+  full_name: string;
+  business_unit_name: string;
+  department_name: string;
+  predicted_probability: number;
+  risk_band: RiskBand;
+}
+
+export interface RiskAnalysisSummary {
+  employee_count: number;
+  average_probability: number;
+  band_counts: BandCounts;
+  business_units: RiskBusinessUnitSummary[];
+  hotspots: RiskHotspotEmployee[];
+}

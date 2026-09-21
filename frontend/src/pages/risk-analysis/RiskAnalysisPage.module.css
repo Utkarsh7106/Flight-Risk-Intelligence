@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.title {
+  color: var(--color-on-surface);
+}
+
+.subtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: 2px;
+}
+
+.stateBox {
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+}
+
+.errorBox {
+  padding: var(--space-lg);
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+  border-radius: var(--radius-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.section {
+  margin-top: var(--space-lg);
+}
+
+.sectionTitle {
+  color: var(--color-on-surface);
+  margin-bottom: var(--space-md);
+}

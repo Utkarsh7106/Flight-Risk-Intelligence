@@ -1,6 +1,6 @@
 import type { BusinessUnitSummary } from '../../api/types';
 import { Table } from '../../components/ui/Table';
-import { RiskBandDistribution } from './RiskBandDistribution';
+import { RiskBandDistribution } from '../../components/ui/RiskBandDistribution';
 import styles from './BusinessUnitBreakdown.module.css';
 
 interface BusinessUnitBreakdownProps {
