@@ -13,6 +13,7 @@ from app.main import app
 from app.models.business_unit import BusinessUnit
 from app.models.department import Department
 from app.models.employee import Employee
+from app.models.synthetic_employee import SyntheticEmployee
 
 HR_EMAIL = "priya.sharma@lsdigital-demo.com"
 HR_PASSWORD = "ChangeMe123!"
@@ -179,6 +180,83 @@ def seeded_employees(migrator_session: Session) -> Generator[dict, None, None]:
     migrator_session.execute(
         delete(Employee).where(
             Employee.id.in_([own_employee.id, other_employee.id, manager_in_other_bu.id])
+        )
+    )
+    migrator_session.commit()
+
+
+@pytest.fixture()
+def seeded_synthetic_employees(migrator_session: Session) -> Generator[dict, None, None]:
+    """Small, self-contained Module 3 fixture — deliberately independent of
+    the full ~3000-row generated dataset (app/synthetic/generate.py +
+    train.py), which needs requirements-ml.txt and several seconds to
+    produce and isn't assumed to exist wherever this suite runs. Mirrors
+    seeded_employees' shape: one active row in the BU-head's own BU, one
+    active row in another BU (for the cross-BU isolation test), and one
+    'separated' row (a labeled training example, never API-visible) to
+    prove that exclusion holds even for HR.
+    """
+    bu_head_bu = migrator_session.scalar(select(BusinessUnit).where(BusinessUnit.name == BU_HEAD_BU_NAME))
+    other_bu = migrator_session.scalar(select(BusinessUnit).where(BusinessUnit.name == OTHER_BU_NAME))
+    dept_in_bu_head_bu = migrator_session.scalar(
+        select(Department).where(Department.business_unit_id == bu_head_bu.id)
+    )
+    dept_in_other_bu = migrator_session.scalar(
+        select(Department).where(Department.business_unit_id == other_bu.id)
+    )
+
+    sample_drivers = [
+        {
+            "feature": "overtime",
+            "label": "Frequent overtime",
+            "value": 1.0,
+            "shap_value": 0.18,
+            "explanation": "Frequent overtime (frequent overtime) increased predicted risk",
+        }
+    ]
+
+    common = dict(
+        date_of_joining=dt.date(2021, 4, 1),
+        grade="L3",
+        ctc_annual=1_500_000,
+        performance_rating=3.4,
+        engagement_score=60.0,
+        manager_effectiveness_score=60.0,
+        overtime=True,
+        job_satisfaction_score=55.0,
+        distance_from_home_km=10.0,
+        employment_status="active",
+        predicted_probability=0.42,
+        risk_band="high",
+        shap_drivers=sample_drivers,
+    )
+
+    own_employee = SyntheticEmployee(
+        employee_code="TST-SYN-OWN1", full_name="Synthetic Own BU", department_id=dept_in_bu_head_bu.id, **common
+    )
+    other_employee = SyntheticEmployee(
+        employee_code="TST-SYN-OTH1", full_name="Synthetic Other BU", department_id=dept_in_other_bu.id, **common
+    )
+    separated_common = {**common, "employment_status": "separated", "predicted_probability": None, "risk_band": None, "shap_drivers": None}
+    separated_employee = SyntheticEmployee(
+        employee_code="TST-SYN-SEP1", full_name="Synthetic Separated", department_id=dept_in_bu_head_bu.id, **separated_common
+    )
+    migrator_session.add_all([own_employee, other_employee, separated_employee])
+    migrator_session.commit()
+
+    data = {
+        "bu_head_bu_id": bu_head_bu.id,
+        "other_bu_id": other_bu.id,
+        "own_employee_id": own_employee.id,
+        "other_employee_id": other_employee.id,
+        "separated_employee_id": separated_employee.id,
+    }
+
+    yield data
+
+    migrator_session.execute(
+        delete(SyntheticEmployee).where(
+            SyntheticEmployee.id.in_([own_employee.id, other_employee.id, separated_employee.id])
         )
     )
     migrator_session.commit()
