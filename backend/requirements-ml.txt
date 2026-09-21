@@ -1,7 +1,8 @@
 # Module 3 offline dataset generation + model training only — NOT a runtime
 # dependency of the FastAPI app. Predictions/SHAP values are computed once
-# by scripts/generate_synthetic_workforce.py and persisted to Postgres; the
-# live API just reads them. See MODULE3_REFERENCE.md.
+# by `python -m app.synthetic.generate` and `python -m app.synthetic.train`
+# and persisted to Postgres; the live API just reads them. See
+# backend/README.md ("Module 3's offline pipeline") and MODULE3_REFERENCE.md.
 -r requirements.txt
 
 numpy==2.3.4

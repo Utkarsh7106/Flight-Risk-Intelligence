@@ -7,6 +7,14 @@
   border: 1px solid var(--color-risk-medium);
   border-radius: var(--radius-card);
   margin-bottom: var(--space-lg);
+  /* AppShell's .content is the scrolling ancestor, not the page body (see
+   * AppShell.module.css) — a long Risk Analysis overview (business unit
+   * table + hotspot list of named individuals) scrolls this banner
+   * completely out of view otherwise, leaving the riskiest-looking part
+   * of the screen with no on-screen "not real data" cue at all. */
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .text {
