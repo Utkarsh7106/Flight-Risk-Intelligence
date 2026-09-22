@@ -38,7 +38,6 @@ from app.schemas.workforce_health import (
     DriverOut,
     EmployeeScoreOut,
     FairnessAuditOut,
-    GroupStatOut,
     HotspotEmployee,
     ManagerAuditOut,
     RecommendationOut,

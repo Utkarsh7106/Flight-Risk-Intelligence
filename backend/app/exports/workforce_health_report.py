@@ -80,7 +80,6 @@ def _esc(value: object) -> str:
 
 
 def _band_bar_html(band_counts: dict[str, int]) -> str:
-    total = sum(band_counts.values()) or 1
     segments = "".join(
         f'<div style="flex:{band_counts.get(band, 0)};background:{BAND_COLORS[band][0]};min-width:'
         f'{"2px" if band_counts.get(band, 0) else "0"};" title="{BAND_LABELS[band]}: {band_counts.get(band, 0)}"></div>'

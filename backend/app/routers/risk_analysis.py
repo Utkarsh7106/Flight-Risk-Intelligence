@@ -33,7 +33,6 @@ from app.schemas.risk_analysis import (
     RiskHotspotEmployee,
     SyntheticEmployeeDetailOut,
     SyntheticEmployeeListResponse,
-    SyntheticEmployeeOut,
 )
 from app.security.deps import get_current_user
 

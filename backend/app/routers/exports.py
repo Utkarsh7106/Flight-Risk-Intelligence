@@ -33,7 +33,6 @@ import datetime as dt
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db

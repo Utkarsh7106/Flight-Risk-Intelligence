@@ -32,7 +32,6 @@ from sqlalchemy import create_engine, delete, func, select
 from sqlalchemy.orm import Session
 
 from app.config import settings
-from app.models.business_unit import BusinessUnit
 from app.models.department import Department
 from app.models.synthetic_employee import SyntheticEmployee
 from app.synthetic.features import RawSignals, compute_features, grade_medians
