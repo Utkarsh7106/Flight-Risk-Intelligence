@@ -12,6 +12,7 @@ from app.config import settings
 from app.main import app
 from app.models.business_unit import BusinessUnit
 from app.models.department import Department
+from app.models.departure_event import DepartureEvent
 from app.models.employee import Employee
 from app.models.synthetic_employee import SyntheticEmployee
 
@@ -177,11 +178,17 @@ def seeded_employees(migrator_session: Session) -> Generator[dict, None, None]:
 
     yield data
 
-    migrator_session.execute(
-        delete(Employee).where(
-            Employee.id.in_([own_employee.id, other_employee.id, manager_in_other_bu.id])
-        )
-    )
+    # departure_event.employee_id has no ON DELETE CASCADE (Module 1's
+    # schema, deliberately — a departure record shouldn't silently vanish
+    # if an employee row is ever deleted in production). Module 4's tests
+    # exercise POST /departure-events against these very rows, so any
+    # departure_event created against them during a test has to be
+    # cleared first or this DELETE fails with a FK violation and leaves
+    # the employee rows (and their unique email/employee_code) behind for
+    # the next test run to collide with.
+    seeded_ids = [own_employee.id, other_employee.id, manager_in_other_bu.id]
+    migrator_session.execute(delete(DepartureEvent).where(DepartureEvent.employee_id.in_(seeded_ids)))
+    migrator_session.execute(delete(Employee).where(Employee.id.in_(seeded_ids)))
     migrator_session.commit()
 
 

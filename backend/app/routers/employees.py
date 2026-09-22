@@ -43,7 +43,7 @@ def _apply_filters(
     business_unit_id: int | None,
     department_id: int | None,
     grade: str | None,
-    employment_status: str | None,
+    employment_status: str,
     location: str | None,
     q: str | None,
 ) -> Select:
@@ -53,7 +53,7 @@ def _apply_filters(
         stmt = stmt.where(Employee.department_id == department_id)
     if grade is not None:
         stmt = stmt.where(Employee.grade == grade)
-    if employment_status is not None:
+    if employment_status != "all":
         stmt = stmt.where(Employee.employment_status == employment_status)
     if location is not None:
         stmt = stmt.where(Employee.location == location)
@@ -77,12 +77,20 @@ def _with_relations(stmt: Select) -> Select:
 
 @router.get("", response_model=EmployeeListResponse)
 def list_employees(
+    # employment_status defaults to "active", not unfiltered (Module 4):
+    # once departure_events.py can actually create 'separated' rows, an
+    # unfiltered default would mix departed employees into the ordinary
+    # directory silently. "all" is the explicit opt-in to see everyone;
+    # "separated" is the explicit "former employees" view. See
+    # MODULE4_REFERENCE.md's "should vanish from the ordinary directory
+    # view by default, but remain visible somewhere" and
+    # frontend/src/pages/directory/DirectoryFilters.tsx's status dropdown.
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(get_current_user)],
     business_unit_id: int | None = None,
     department_id: int | None = None,
     grade: Literal["L1", "L2", "L3", "L4", "L5", "L6"] | None = None,
-    employment_status: Literal["active", "separated"] | None = None,
+    employment_status: Literal["active", "separated", "all"] = "active",
     location: str | None = None,
     q: str | None = None,
     sort_by: SortBy = "full_name",

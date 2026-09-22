@@ -43,3 +43,6 @@ class DepartureEvent(Base):
     created_at: Mapped[dt.datetime] = mapped_column(server_default=func.now(), nullable=False)
 
     employee: Mapped["Employee"] = relationship()
+    business_unit: Mapped["BusinessUnit"] = relationship()
+    department: Mapped["Department"] = relationship()
+    recorded_by: Mapped["AppUser | None"] = relationship()
