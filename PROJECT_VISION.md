@@ -199,8 +199,30 @@ constraint). Don't "fix" this if you encounter it.
   every screen so this can never be mistaken for the real baseline
   panel. See `MODULE3_REFERENCE.md` for the full reasoning, especially
   the label-generation approach. 77/77 backend tests passing.
-- **Not yet started:** Module 4 (departure-event capture, exports),
-  any deployment/hosting setup.
+- **Module 4 (departure capture + shareable exports): complete, backend
+  and frontend.** The real entry mechanism on top of Module 1's
+  `departure_event` table/`mark_employee_separated` trigger — a BU Head
+  may record a departure for their own BU (mirroring a write-access
+  decision the Module 1 RLS policy already made), HR for anyone;
+  `business_unit_id`/`department_id` snapshotted server-side, never from
+  the client. `GET /employees` now defaults `employment_status` to
+  `"active"` (was unfiltered) so a separated employee doesn't silently
+  appear in the ordinary directory. Frontend: a "Departures" nav item
+  (RLS-scoped list + record form, reachable from the Directory's own
+  rows), and the Directory's status filter gained an explicit
+  "Separated"/"All statuses" choice. Shareable exports: one
+  self-contained HTML template rendered two ways — served directly, or
+  printed to PDF by a real headless Chromium — so the formats can't
+  visually drift apart; org-wide or single-BU scope, a BU Head's export
+  forced server-side to their own BU regardless of what's requested,
+  the fairness audit and Module 3's demonstration dataset excluded from
+  every export by construction. A live CORS bug (`Content-Disposition`
+  not exposed cross-origin, so every download used a generic filename)
+  was found and fixed during verification. See `MODULE4_REFERENCE.md`
+  for the full reasoning, especially the access-control and export-
+  generation decisions. 101/101 backend tests passing.
+- **Not yet started:** any deployment/hosting setup. All four V1
+  modules are feature-complete.
 
 ## Deployment context (decided, not yet executed)
 
