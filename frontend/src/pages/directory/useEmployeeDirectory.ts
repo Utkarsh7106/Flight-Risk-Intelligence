@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useAsync } from '../../hooks/useAsync';
 import { listEmployees } from '../../api/employees';
-import { ApiError, NetworkError } from '../../api/client';
 import type { EmployeeListResponse, EmploymentStatusFilter, Grade, SortBy, SortDir } from '../../api/types';
 
 export interface DirectoryFilters {
@@ -36,61 +36,27 @@ export function useEmployeeDirectory() {
   const [sortBy, setSortByState] = useState<SortBy>('full_name');
   const [sortDir, setSortDirState] = useState<SortDir>('asc');
   const [offset, setOffset] = useState(0);
-  const [reloadToken, setReloadToken] = useState(0);
-
-  const [data, setData] = useState<EmployeeListResponse | null>(null);
-  const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const handle = setTimeout(() => setDebouncedQ(filters.q), SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(handle);
   }, [filters.q]);
 
-  useEffect(() => {
-    let cancelled = false;
-    setLoadState('loading');
-
-    listEmployees({
-      q: debouncedQ || undefined,
-      grade: filters.grade || undefined,
-      employment_status: filters.employment_status,
-      business_unit_id: filters.business_unit_id === '' ? undefined : filters.business_unit_id,
-      sort_by: sortBy,
-      sort_dir: sortDir,
-      limit: PAGE_SIZE,
-      offset,
-    })
-      .then((response) => {
-        if (cancelled) return;
-        setData(response);
-        setLoadState('loaded');
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return;
-        if (err instanceof ApiError) {
-          setErrorMessage(err.detail ?? `Request failed (${err.status}).`);
-        } else if (err instanceof NetworkError) {
-          setErrorMessage('Unable to reach the server.');
-        } else {
-          setErrorMessage('Something went wrong loading the directory.');
-        }
-        setLoadState('error');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    debouncedQ,
-    filters.grade,
-    filters.employment_status,
-    filters.business_unit_id,
-    sortBy,
-    sortDir,
-    offset,
-    reloadToken,
-  ]);
+  const { data, loadState, errorMessage, retry } = useAsync<EmployeeListResponse>(
+    () =>
+      listEmployees({
+        q: debouncedQ || undefined,
+        grade: filters.grade || undefined,
+        employment_status: filters.employment_status,
+        business_unit_id: filters.business_unit_id === '' ? undefined : filters.business_unit_id,
+        sort_by: sortBy,
+        sort_dir: sortDir,
+        limit: PAGE_SIZE,
+        offset,
+      }),
+    [debouncedQ, filters.grade, filters.employment_status, filters.business_unit_id, sortBy, sortDir, offset],
+    { fallbackErrorMessage: 'Something went wrong loading the directory.' },
+  );
 
   function setFilters(next: Partial<DirectoryFilters>) {
     setFiltersState((prev) => ({ ...prev, ...next }));
@@ -129,6 +95,6 @@ export function useEmployeeDirectory() {
     errorMessage,
     nextPage,
     previousPage,
-    retry: () => setReloadToken((n) => n + 1),
+    retry,
   };
 }

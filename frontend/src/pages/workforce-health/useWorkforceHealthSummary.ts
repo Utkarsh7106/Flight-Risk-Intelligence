@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useAsync } from '../../hooks/useAsync';
 import { getWorkforceHealthSummary } from '../../api/workforceHealth';
-import { ApiError, NetworkError } from '../../api/client';
 import type { WorkforceHealthSummary } from '../../api/types';
 
 /** Talks to GET /workforce-health/summary and nothing else — no role/BU
@@ -9,37 +8,10 @@ import type { WorkforceHealthSummary } from '../../api/types';
  * because that's what the server returned for their session.
  */
 export function useWorkforceHealthSummary() {
-  const [data, setData] = useState<WorkforceHealthSummary | null>(null);
-  const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [reloadToken, setReloadToken] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoadState('loading');
-
-    getWorkforceHealthSummary()
-      .then((response) => {
-        if (cancelled) return;
-        setData(response);
-        setLoadState('loaded');
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return;
-        if (err instanceof ApiError) {
-          setErrorMessage(err.detail ?? `Request failed (${err.status}).`);
-        } else if (err instanceof NetworkError) {
-          setErrorMessage('Unable to reach the server.');
-        } else {
-          setErrorMessage('Something went wrong loading workforce health.');
-        }
-        setLoadState('error');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [reloadToken]);
-
-  return { data, loadState, errorMessage, retry: () => setReloadToken((n) => n + 1) };
+  const { data, loadState, errorMessage, retry } = useAsync<WorkforceHealthSummary>(
+    getWorkforceHealthSummary,
+    [],
+    { fallbackErrorMessage: 'Something went wrong loading workforce health.' },
+  );
+  return { data, loadState, errorMessage, retry };
 }
