@@ -47,6 +47,7 @@ from app.scoring.employee_scoring import (
     fetch_active_employees,
     peer_ctc_by_grade,
     peer_median_and_size,
+    score_active_employees,
     to_scoring_inputs,
 )
 from app.scoring.fairness_audit import EmployeeScoreForAudit, build_fairness_audit
@@ -80,23 +81,17 @@ def get_summary(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(get_current_user)],
 ) -> WorkforceHealthSummary:
-    employees = fetch_active_employees(db)
-    if not employees:
+    scored_employees = score_active_employees(db)
+    if not scored_employees:
         empty_bands = BandCounts(low=0, medium=0, high=0, critical=0)
         return WorkforceHealthSummary(
             employee_count=0, average_score=0.0, band_counts=empty_bands, business_units=[], hotspots=[]
         )
 
-    by_grade = peer_ctc_by_grade(employees)
-    as_of = dt.date.today()
-    scored = [
-        (e, score_employee(to_scoring_inputs(e, *peer_median_and_size(e, by_grade), as_of)))
-        for e in employees
-    ]
-
     band_totals = {"low": 0, "medium": 0, "high": 0, "critical": 0}
     bu_groups: dict[int, dict] = {}
-    for employee, result in scored:
+    for se in scored_employees:
+        employee, result = se.employee, se.result
         band_totals[result.band.value] += 1
         bucket = bu_groups.setdefault(
             employee.business_unit_id,
@@ -117,22 +112,22 @@ def get_summary(
     ]
     business_units.sort(key=lambda b: b.average_score, reverse=True)
 
-    hotspots = sorted(scored, key=lambda pair: pair[1].score, reverse=True)[:_HOTSPOT_COUNT]
+    hotspots = sorted(scored_employees, key=lambda se: se.result.score, reverse=True)[:_HOTSPOT_COUNT]
     hotspot_out = [
         HotspotEmployee(
-            employee_id=employee.id,
-            full_name=employee.full_name,
-            business_unit_name=employee.business_unit.name,
-            department_name=employee.department.name,
-            score=result.score,
-            band=result.band.value,
+            employee_id=se.employee.id,
+            full_name=se.employee.full_name,
+            business_unit_name=se.employee.business_unit.name,
+            department_name=se.employee.department.name,
+            score=se.result.score,
+            band=se.result.band.value,
         )
-        for employee, result in hotspots
+        for se in hotspots
     ]
 
-    all_scores = [result.score for _, result in scored]
+    all_scores = [se.result.score for se in scored_employees]
     return WorkforceHealthSummary(
-        employee_count=len(scored),
+        employee_count=len(scored_employees),
         average_score=round(sum(all_scores) / len(all_scores), 1),
         band_counts=BandCounts(**band_totals),
         business_units=business_units,
@@ -146,12 +141,25 @@ def get_employee_score(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(get_current_user)],
 ) -> EmployeeScoreOut:
-    employee = _get_employee_or_404(db, employee_id)
-    peers = fetch_active_employees(db)
-    by_grade = peer_ctc_by_grade(peers)
-    peer_median, peer_size = peer_median_and_size(employee, by_grade)
-    inputs = to_scoring_inputs(employee, peer_median, peer_size, dt.date.today())
-    result = score_employee(inputs)
+    scored_employees = score_active_employees(db)
+    scored_by_id = {se.employee.id: se for se in scored_employees}
+
+    if employee_id in scored_by_id:
+        matched = scored_by_id[employee_id]
+        employee, result = matched.employee, matched.result
+    else:
+        # Not in the active population score_active_employees scores — e.g.
+        # a separated employee. _get_employee_or_404 doesn't filter by
+        # employment_status, so their score page has always stayed reachable
+        # by direct id (unlike the summary/directory, which hide them by
+        # default); preserving that pre-existing behavior here rather than
+        # changing it, since this pass is cleanup only. Score them
+        # individually against the same active peer population.
+        employee = _get_employee_or_404(db, employee_id)
+        by_grade = peer_ctc_by_grade([se.employee for se in scored_employees])
+        peer_median, peer_size = peer_median_and_size(employee, by_grade)
+        result = score_employee(to_scoring_inputs(employee, peer_median, peer_size, dt.date.today()))
+
     recommendations = recommend(result)
 
     return EmployeeScoreOut(
