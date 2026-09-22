@@ -3,7 +3,7 @@ import { Avatar } from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
 import { Card } from '../../components/ui/Card';
 import type { Employee } from '../../api/types';
-import { formatCtc, formatScore, formatTenure } from './format';
+import { formatCtc, formatScore, formatTenure, scoreLink } from './format';
 import styles from './DirectoryCards.module.css';
 
 interface DirectoryCardsProps {
@@ -76,7 +76,7 @@ export function DirectoryCards({ employees }: DirectoryCardsProps) {
                   Record departure
                 </Link>
               )}
-              <Link to={`/workforce-health/employees/${employee.id}`} className={styles.scoreLink}>
+              <Link to={scoreLink(employee.id, employee.employment_status)} className={styles.scoreLink}>
                 View score →
               </Link>
             </div>

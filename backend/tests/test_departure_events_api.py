@@ -151,6 +151,70 @@ def test_separated_employee_excluded_from_workforce_health_summary(hr_client: Te
     assert seeded_employees["own_employee_id"] not in after_hotspot_ids
 
 
+def test_separated_employee_score_404s_by_default(hr_client: TestClient, seeded_employees: dict):
+    resp = hr_client.post("/departure-events", json=_payload(seeded_employees["own_employee_id"]))
+    assert resp.status_code == 201
+
+    resp = hr_client.get(f"/workforce-health/employees/{seeded_employees['own_employee_id']}")
+    assert resp.status_code == 404
+
+
+def test_separated_employee_score_reachable_via_explicit_filter(hr_client: TestClient, seeded_employees: dict):
+    resp = hr_client.post("/departure-events", json=_payload(seeded_employees["own_employee_id"]))
+    assert resp.status_code == 201
+
+    separated = hr_client.get(
+        f"/workforce-health/employees/{seeded_employees['own_employee_id']}",
+        params={"employment_status": "separated"},
+    )
+    assert separated.status_code == 200
+    assert separated.json()["employee_id"] == seeded_employees["own_employee_id"]
+
+    everyone = hr_client.get(
+        f"/workforce-health/employees/{seeded_employees['own_employee_id']}",
+        params={"employment_status": "all"},
+    )
+    assert everyone.status_code == 200
+    assert everyone.json()["employee_id"] == seeded_employees["own_employee_id"]
+
+
+def test_bu_head_separated_own_employee_score_404s_by_default_but_reachable_via_opt_in(
+    hr_client: TestClient, bu_head_client: TestClient, seeded_employees: dict
+):
+    resp = hr_client.post("/departure-events", json=_payload(seeded_employees["own_employee_id"]))
+    assert resp.status_code == 201
+
+    default = bu_head_client.get(f"/workforce-health/employees/{seeded_employees['own_employee_id']}")
+    assert default.status_code == 404
+
+    opted_in = bu_head_client.get(
+        f"/workforce-health/employees/{seeded_employees['own_employee_id']}",
+        params={"employment_status": "all"},
+    )
+    assert opted_in.status_code == 200
+    assert opted_in.json()["employee_id"] == seeded_employees["own_employee_id"]
+
+
+def test_bu_head_cannot_reach_other_bus_separated_employee_score_even_with_opt_in(
+    hr_client: TestClient, bu_head_client: TestClient, seeded_employees: dict
+):
+    """Mirrors test_bu_head_recording_departure_for_other_bu_employee_is_404's
+    honest-404 pattern: employment_status is a separate dimension from BU
+    scoping, and the opt-in must never widen RLS — a BU Head asking with
+    ?employment_status=all for another BU's separated employee gets the
+    same 404 as for an id that doesn't exist at all.
+    """
+    resp = hr_client.post("/departure-events", json=_payload(seeded_employees["other_employee_id"]))
+    assert resp.status_code == 201
+
+    for params in (None, {"employment_status": "separated"}, {"employment_status": "all"}):
+        resp = bu_head_client.get(
+            f"/workforce-health/employees/{seeded_employees['other_employee_id']}",
+            params=params,
+        )
+        assert resp.status_code == 404
+
+
 # --- RLS-scoped listing of departure_event itself ------------------------
 
 

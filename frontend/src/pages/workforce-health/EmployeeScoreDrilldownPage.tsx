@@ -1,10 +1,11 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Avatar } from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { useEmployeeScore } from './useEmployeeScore';
 import { DriverBreakdown } from './DriverBreakdown';
+import type { EmploymentStatusFilter } from '../../api/types';
 import styles from './EmployeeScoreDrilldownPage.module.css';
 
 /** Score + driver breakdown + recommendations for one employee — the
@@ -15,11 +16,20 @@ import styles from './EmployeeScoreDrilldownPage.module.css';
  * does — a 404 here means either the id doesn't exist or this login
  * can't see it, indistinguishably, which is the same honest ambiguity
  * the directory's employee lookup already has.
+ *
+ * ?employment_status carries the same opt-in DirectoryFilters.tsx already
+ * exposes (Module 4): the directory only links here with it set when the
+ * row it's linking from is already shown under an explicit "Separated"/
+ * "All statuses" filter, so a separated employee's score stays reachable
+ * from the app, not just from a raw API call. No new control lives on
+ * this page itself — it only forwards what the link already said.
  */
 export function EmployeeScoreDrilldownPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const employeeId = Number(id);
-  const { data, loadState, errorMessage, notFound, retry } = useEmployeeScore(employeeId);
+  const employmentStatus = (searchParams.get('employment_status') as EmploymentStatusFilter | null) ?? undefined;
+  const { data, loadState, errorMessage, notFound, retry } = useEmployeeScore(employeeId, employmentStatus);
 
   return (
     <div>

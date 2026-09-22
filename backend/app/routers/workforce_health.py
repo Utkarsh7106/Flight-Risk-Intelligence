@@ -5,10 +5,15 @@ the sole authority (every query below runs under whatever
 app.current_role/app.current_bu_id get_current_user's RLS-context setup
 established for this request; nothing here adds a manual role/BU
 filter), and get_employee_score's 404-on-invisible-row behavior is
-identical to employees.get_employee. There are no sort/filter query
-params on any endpoint here, so there's no allow-list to build — the
-guardrail from ARCHITECTURE.md (hardcoded allow-lists, never getattr())
-has nothing to apply to in this module.
+identical to employees.get_employee. get_employee_score's
+employment_status query param mirrors employees.list_employees' exact
+same convention (Module 4): defaults to "active", so a separated
+employee's score page 404s the same way they're already hidden from the
+default directory and summary views; "separated"/"all" are the explicit
+opt-in to reach it. There are no sort/filter query params otherwise on
+any endpoint here, so there's no allow-list to build — the guardrail
+from ARCHITECTURE.md (hardcoded allow-lists, never getattr()) has
+nothing to apply to in this module.
 
 Peer-group compensation comparisons (grade -> median CTC) are computed
 in-memory from whatever employees the current request's RLS scope makes
@@ -22,7 +27,7 @@ Part 1 commit message for the full reasoning.
 from __future__ import annotations
 
 import datetime as dt
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
@@ -140,22 +145,31 @@ def get_employee_score(
     employee_id: int,
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(get_current_user)],
+    # Same convention as employees.list_employees (Module 4): "active" is
+    # the default so a separated employee's score isn't reachable by id
+    # forever; "separated"/"all" are the explicit ask to see one anyway.
+    employment_status: Literal["active", "separated", "all"] = "active",
 ) -> EmployeeScoreOut:
     scored_employees = score_active_employees(db)
     scored_by_id = {se.employee.id: se for se in scored_employees}
+    matched = scored_by_id.get(employee_id)
 
-    if employee_id in scored_by_id:
-        matched = scored_by_id[employee_id]
-        employee, result = matched.employee, matched.result
+    # _get_employee_or_404 doesn't filter by employment_status — it's the
+    # same RLS-only lookup employees.get_employee uses — so this is the one
+    # place that gate is enforced. A row missing from scored_by_id (which
+    # score_active_employees builds from active employees only) but found
+    # here is, in practice, always a separated one.
+    employee = matched.employee if matched is not None else _get_employee_or_404(db, employee_id)
+
+    if employment_status != "all" and employee.employment_status != employment_status:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not found")
+
+    if matched is not None:
+        result = matched.result
     else:
-        # Not in the active population score_active_employees scores — e.g.
-        # a separated employee. _get_employee_or_404 doesn't filter by
-        # employment_status, so their score page has always stayed reachable
-        # by direct id (unlike the summary/directory, which hide them by
-        # default); preserving that pre-existing behavior here rather than
-        # changing it, since this pass is cleanup only. Score them
-        # individually against the same active peer population.
-        employee = _get_employee_or_404(db, employee_id)
+        # Not in the active population score_active_employees scores — a
+        # separated employee reached via the employment_status opt-in above.
+        # Score them individually against the same active peer population.
         by_grade = peer_ctc_by_grade([se.employee for se in scored_employees])
         peer_median, peer_size = peer_median_and_size(employee, by_grade)
         result = score_employee(to_scoring_inputs(employee, peer_median, peer_size, dt.date.today()))

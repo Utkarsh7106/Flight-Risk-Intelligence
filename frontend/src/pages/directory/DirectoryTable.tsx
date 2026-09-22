@@ -3,7 +3,7 @@ import { Avatar } from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
 import { Table, SortableHeader } from '../../components/ui/Table';
 import type { Employee, SortBy, SortDir } from '../../api/types';
-import { formatCtc, formatScore, formatTenure } from './format';
+import { formatCtc, formatScore, formatTenure, scoreLink } from './format';
 import styles from './DirectoryTable.module.css';
 
 interface DirectoryTableProps {
@@ -75,7 +75,7 @@ export function DirectoryTable({ employees, sortBy, sortDir, onToggleSort }: Dir
               <div className={styles.nameCell}>
                 <Avatar fullName={employee.full_name} size="sm" />
                 <div className={styles.nameText}>
-                  <Link to={`/workforce-health/employees/${employee.id}`} className={`${styles.fullName} text-body-md`}>
+                  <Link to={scoreLink(employee.id, employee.employment_status)} className={`${styles.fullName} text-body-md`}>
                     {employee.full_name}
                   </Link>
                   <span className={`${styles.designation} text-label-md`}>{employee.designation ?? '—'}</span>

@@ -22,3 +22,15 @@ export function formatTenure(years: number): string {
 export function formatScore(value: number | null): string {
   return value === null ? '—' : value.toFixed(1);
 }
+
+/** A directory row only shows a separated employee at all once the status
+ * filter has already been set to "separated"/"all" (DirectoryFilters.tsx) —
+ * that's the explicit ask. This carries it through to the score page so
+ * GET /workforce-health/employees/{id}'s employment_status opt-in (Module 4)
+ * doesn't 404 a link the directory itself just offered.
+ */
+export function scoreLink(employeeId: number, employmentStatus: 'active' | 'separated'): string {
+  return employmentStatus === 'active'
+    ? `/workforce-health/employees/${employeeId}`
+    : `/workforce-health/employees/${employeeId}?employment_status=all`;
+}
