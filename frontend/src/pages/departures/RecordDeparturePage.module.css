@@ -1,0 +1,130 @@
+.backLink {
+  display: inline-block;
+  color: var(--color-accent);
+  text-decoration: none;
+  margin-bottom: var(--space-md);
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.title {
+  color: var(--color-on-surface);
+}
+
+.subtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: 2px;
+  margin-bottom: var(--space-lg);
+  max-width: 640px;
+}
+
+.card {
+  max-width: 640px;
+}
+
+.hint {
+  color: var(--color-on-surface-variant);
+  display: block;
+  margin-top: 4px;
+}
+
+.resultList {
+  list-style: none;
+  margin: var(--space-sm) 0 0;
+  padding: 0;
+  border: 1px solid var(--color-elevation-1-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.resultButton {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-elevation-1-border);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.resultButton:last-child {
+  border-bottom: none;
+}
+
+.resultButton:hover {
+  background: var(--color-elevation-1-bg);
+}
+
+.selectedEmployee {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-elevation-1-border);
+}
+
+.selectedName {
+  display: block;
+  color: var(--color-on-surface);
+}
+
+.changeLink {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.changeLink:hover {
+  text-decoration: underline;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.textarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-control);
+  font: inherit;
+  resize: vertical;
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.errorText {
+  color: var(--color-on-error-container);
+  background: var(--color-error-container);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+}

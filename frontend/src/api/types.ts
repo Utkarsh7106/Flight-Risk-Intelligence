@@ -16,6 +16,10 @@ export interface CurrentUser {
 
 export type Grade = 'L1' | 'L2' | 'L3' | 'L4' | 'L5' | 'L6';
 export type EmploymentStatus = 'active' | 'separated';
+/** GET /employees' employment_status query param — "all" is the explicit
+ * opt-in to see everyone; the backend defaults this to "active" when the
+ * param is omitted entirely (see backend/app/routers/employees.py). */
+export type EmploymentStatusFilter = EmploymentStatus | 'all';
 
 export interface DepartmentRef {
   id: number;
@@ -90,7 +94,7 @@ export interface EmployeeQuery {
   business_unit_id?: number;
   department_id?: number;
   grade?: Grade;
-  employment_status?: EmploymentStatus;
+  employment_status?: EmploymentStatusFilter;
   location?: string;
   q?: string;
   sort_by?: SortBy;
@@ -282,4 +286,96 @@ export interface RiskAnalysisSummary {
   band_counts: BandCounts;
   business_units: RiskBusinessUnitSummary[];
   hotspots: RiskHotspotEmployee[];
+}
+
+/**
+ * Mirrors backend/app/schemas/departure_event.py — Module 4, Part A. The
+ * entry mechanism on top of the departure_event table/trigger that
+ * existed since Module 1. See MODULE4_REFERENCE.md and
+ * backend/app/routers/departure_events.py's docstring for the access-
+ * control reasoning (a BU Head may record a departure for their own BU;
+ * HR for anyone).
+ */
+export type DepartureType = 'voluntary' | 'involuntary' | 'retirement' | 'other';
+
+/** Copied verbatim from backend/app/schemas/departure_event.py's
+ * REASON_CATEGORIES — keep the two in sync by hand, same discipline as
+ * SORTABLE_FIELDS above. reason_category is optional; when provided it
+ * must be one of the values for the selected departure_type. */
+export const REASON_CATEGORIES: Record<DepartureType, { value: string; label: string }[]> = {
+  voluntary: [
+    { value: 'better_opportunity', label: 'Better opportunity' },
+    { value: 'compensation', label: 'Compensation' },
+    { value: 'relocation', label: 'Relocation' },
+    { value: 'higher_education', label: 'Higher education' },
+    { value: 'career_change', label: 'Career change' },
+    { value: 'work_life_balance', label: 'Work-life balance' },
+    { value: 'family_or_personal', label: 'Family or personal' },
+    { value: 'other_voluntary', label: 'Other' },
+  ],
+  involuntary: [
+    { value: 'performance_managed_out', label: 'Performance managed out' },
+    { value: 'redundancy_or_restructuring', label: 'Redundancy / restructuring' },
+    { value: 'policy_violation', label: 'Policy violation' },
+    { value: 'other_involuntary', label: 'Other' },
+  ],
+  retirement: [{ value: 'retirement', label: 'Retirement' }],
+  other: [{ value: 'unspecified', label: 'Unspecified' }],
+};
+
+export interface DepartureEmployeeRef {
+  id: number;
+  employee_code: string;
+  full_name: string;
+  grade: Grade;
+  designation: string | null;
+}
+
+export interface RecordedByRef {
+  id: number;
+  full_name: string;
+}
+
+export interface DepartureEvent {
+  id: number;
+  employee: DepartureEmployeeRef;
+  business_unit: BusinessUnitRef;
+  department: DepartmentRef;
+  departure_date: string;
+  last_working_day: string | null;
+  departure_type: DepartureType;
+  reason_category: string | null;
+  reason_notes: string | null;
+  is_regretted: boolean | null;
+  notice_period_days: number | null;
+  recorded_by: RecordedByRef | null;
+  created_at: string;
+}
+
+export interface DepartureEventListResponse {
+  items: DepartureEvent[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export interface DepartureEventCreate {
+  employee_id: number;
+  departure_date: string;
+  last_working_day?: string | null;
+  departure_type: DepartureType;
+  reason_category?: string | null;
+  reason_notes?: string | null;
+  is_regretted?: boolean | null;
+  notice_period_days?: number | null;
+}
+
+export interface DepartureQuery {
+  business_unit_id?: number;
+  department_id?: number;
+  departure_type?: DepartureType;
+  sort_by?: 'departure_date' | 'created_at';
+  sort_dir?: SortDir;
+  limit?: number;
+  offset?: number;
 }

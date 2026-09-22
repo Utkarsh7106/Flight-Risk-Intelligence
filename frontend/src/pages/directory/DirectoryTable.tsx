@@ -97,9 +97,14 @@ export function DirectoryTable({ employees, sortBy, sortDir, onToggleSort }: Dir
             <td className="text-mono-data">{formatScore(employee.performance_rating)}</td>
             <td>
               {employee.employment_status === 'active' ? (
-                <Badge tone="low" dot>
-                  Active
-                </Badge>
+                <div className={styles.statusCell}>
+                  <Badge tone="low" dot>
+                    Active
+                  </Badge>
+                  <Link to={`/departures/new?employee_id=${employee.id}`} className={styles.recordDepartureLink}>
+                    Record departure
+                  </Link>
+                </div>
               ) : (
                 <Badge tone="neutral" dot>
                   Separated

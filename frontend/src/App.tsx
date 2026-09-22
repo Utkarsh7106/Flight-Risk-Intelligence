@@ -9,6 +9,8 @@ import { EmployeeScoreDrilldownPage } from './pages/workforce-health/EmployeeSco
 import { FairnessAuditPage } from './pages/workforce-health/FairnessAuditPage';
 import { RiskAnalysisPage } from './pages/risk-analysis/RiskAnalysisPage';
 import { RiskEmployeeDrilldownPage } from './pages/risk-analysis/RiskEmployeeDrilldownPage';
+import { DeparturesPage } from './pages/departures/DeparturesPage';
+import { RecordDeparturePage } from './pages/departures/RecordDeparturePage';
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
             <Route path="/workforce-health/fairness-audit" element={<FairnessAuditPage />} />
             <Route path="/risk-analysis" element={<RiskAnalysisPage />} />
             <Route path="/risk-analysis/employees/:id" element={<RiskEmployeeDrilldownPage />} />
+            <Route path="/departures" element={<DeparturesPage />} />
+            <Route path="/departures/new" element={<RecordDeparturePage />} />
           </Route>
         </Route>
 

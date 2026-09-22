@@ -70,9 +70,16 @@ export function DirectoryCards({ employees }: DirectoryCardsProps) {
                 Separated
               </Badge>
             )}
-            <Link to={`/workforce-health/employees/${employee.id}`} className={styles.scoreLink}>
-              View score →
-            </Link>
+            <div className={styles.footerLinks}>
+              {employee.employment_status === 'active' && (
+                <Link to={`/departures/new?employee_id=${employee.id}`} className={styles.recordDepartureLink}>
+                  Record departure
+                </Link>
+              )}
+              <Link to={`/workforce-health/employees/${employee.id}`} className={styles.scoreLink}>
+                View score →
+              </Link>
+            </div>
           </div>
         </Card>
       ))}

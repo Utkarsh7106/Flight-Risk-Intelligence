@@ -1,11 +1,15 @@
 import { Field, Select, TextInput } from '../../components/ui/FormControls';
 import { SORTABLE_FIELDS } from '../../api/types';
-import type { BusinessUnitRef, EmploymentStatus, Grade, SortBy } from '../../api/types';
+import type { BusinessUnitRef, EmploymentStatusFilter, Grade, SortBy } from '../../api/types';
 import type { DirectoryFilters as Filters } from './useEmployeeDirectory';
 import styles from './DirectoryFilters.module.css';
 
 const GRADES: Grade[] = ['L1', 'L2', 'L3', 'L4', 'L5', 'L6'];
-const STATUSES: EmploymentStatus[] = ['active', 'separated'];
+const STATUS_OPTIONS: { value: EmploymentStatusFilter; label: string }[] = [
+  { value: 'active', label: 'Active' },
+  { value: 'separated', label: 'Separated' },
+  { value: 'all', label: 'All statuses' },
+];
 
 const SORT_LABELS: Record<SortBy, string> = {
   full_name: 'Name',
@@ -80,12 +84,11 @@ export function DirectoryFilters({
           <Select
             id="directory-status"
             value={filters.employment_status}
-            onChange={(e) => onFiltersChange({ employment_status: e.target.value as EmploymentStatus | '' })}
+            onChange={(e) => onFiltersChange({ employment_status: e.target.value as EmploymentStatusFilter })}
           >
-            <option value="">All statuses</option>
-            {STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s === 'active' ? 'Active' : 'Separated'}
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
               </option>
             ))}
           </Select>

@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
 import { listEmployees } from '../../api/employees';
 import { ApiError, NetworkError } from '../../api/client';
-import type { EmployeeListResponse, EmploymentStatus, Grade, SortBy, SortDir } from '../../api/types';
+import type { EmployeeListResponse, EmploymentStatusFilter, Grade, SortBy, SortDir } from '../../api/types';
 
 export interface DirectoryFilters {
   q: string;
   grade: Grade | '';
-  employment_status: EmploymentStatus | '';
+  employment_status: EmploymentStatusFilter;
   business_unit_id: number | '';
 }
 
-const DEFAULT_FILTERS: DirectoryFilters = { q: '', grade: '', employment_status: '', business_unit_id: '' };
+// employment_status defaults to 'active', not '' (Module 4): once
+// separated employees can actually exist, an unfiltered default would
+// mix departed employees into the ordinary directory silently. See
+// backend/app/routers/employees.py's matching default and
+// DirectoryFilters.tsx's status dropdown for the explicit "Separated"/
+// "All statuses" opt-ins.
+const DEFAULT_FILTERS: DirectoryFilters = { q: '', grade: '', employment_status: 'active', business_unit_id: '' };
 const PAGE_SIZE = 50;
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -48,7 +54,7 @@ export function useEmployeeDirectory() {
     listEmployees({
       q: debouncedQ || undefined,
       grade: filters.grade || undefined,
-      employment_status: filters.employment_status || undefined,
+      employment_status: filters.employment_status,
       business_unit_id: filters.business_unit_id === '' ? undefined : filters.business_unit_id,
       sort_by: sortBy,
       sort_dir: sortDir,

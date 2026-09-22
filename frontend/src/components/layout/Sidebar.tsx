@@ -4,13 +4,15 @@ import { Avatar } from '../ui/Avatar';
 import styles from './Sidebar.module.css';
 
 /** Single sidebar, no top navbar — locked guardrail (ARCHITECTURE.md /
- * PROJECT_VISION.md "UI guardrails"). Workforce Health (Module 2) and
- * Risk Analysis (Module 3) are both real now. Fairness Audit only
- * renders for HR accounts — this is a UI courtesy only, the real
- * enforcement is backend/app/security/deps.py's require_hr gate on the
- * endpoint itself (see MODULE2_REFERENCE.md); hiding the link here does
- * not by itself make the audit HR-only. Risk Analysis has no such gate —
- * it renders for both roles, RLS-scoped like every other module.
+ * PROJECT_VISION.md "UI guardrails"). Workforce Health (Module 2), Risk
+ * Analysis (Module 3), and Departures (Module 4) are all real now.
+ * Fairness Audit only renders for HR accounts — this is a UI courtesy
+ * only, the real enforcement is backend/app/security/deps.py's
+ * require_hr gate on the endpoint itself (see MODULE2_REFERENCE.md);
+ * hiding the link here does not by itself make the audit HR-only. Risk
+ * Analysis and Departures have no such gate — both render for both
+ * roles, RLS-scoped like every other module (a BU Head can record and
+ * see departures for their own BU — see MODULE4_REFERENCE.md).
  */
 export function Sidebar() {
   const { user, businessUnitName, logout } = useAuth();
@@ -59,6 +61,13 @@ export function Sidebar() {
           className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
         >
           <span className="text-body-md">Risk Analysis</span>
+        </NavLink>
+
+        <NavLink
+          to="/departures"
+          className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+        >
+          <span className="text-body-md">Departures</span>
         </NavLink>
       </nav>
 

@@ -57,6 +57,12 @@
   align-items: center;
 }
 
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
 .scoreLink {
   color: var(--color-accent);
   text-decoration: none;
@@ -64,5 +70,16 @@
 }
 
 .scoreLink:hover {
+  text-decoration: underline;
+}
+
+.recordDepartureLink {
+  color: var(--color-on-surface-variant);
+  text-decoration: none;
+  font-size: var(--font-label-md-size);
+}
+
+.recordDepartureLink:hover {
+  color: var(--color-on-surface);
   text-decoration: underline;
 }
