@@ -1,0 +1,33 @@
+.card {
+  margin-top: var(--space-lg);
+}
+
+.title {
+  color: var(--color-on-surface);
+}
+
+.subtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: 2px;
+  margin-bottom: var(--space-md);
+}
+
+.controls {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.buttonRow {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.errorText {
+  color: var(--color-on-error-container);
+  background: var(--color-error-container);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  margin-top: var(--space-md);
+}

@@ -6,6 +6,7 @@ import { InsightCallout } from '../../components/ui/InsightCallout';
 import { useWorkforceHealthSummary } from './useWorkforceHealthSummary';
 import { RiskBandDistribution } from '../../components/ui/RiskBandDistribution';
 import { BusinessUnitBreakdown } from './BusinessUnitBreakdown';
+import { ExportControls } from './ExportControls';
 import { HotspotList } from './HotspotList';
 import { buildInsightSentence } from './insightSentence';
 import styles from './WorkforceHealthPage.module.css';
@@ -73,6 +74,8 @@ export function WorkforceHealthPage() {
             <h2 className={`${styles.sectionTitle} text-headline-sm`}>Highest-Risk Employees</h2>
             <HotspotList hotspots={data.hotspots} />
           </Card>
+
+          <ExportControls isHr={isHr} />
         </>
       )}
     </div>

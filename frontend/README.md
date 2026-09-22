@@ -80,8 +80,27 @@ Password for all seeded accounts: `ChangeMe123!`
   language, adapted for signed SHAP contributions. `DemoDatasetBanner`
   renders on every screen in this module with a visually distinct
   (amber, not Module 2's cyan `InsightCallout`) treatment so it can
-  never be mistaken for real baseline-panel data — see
+  never be mistaken for real baseline-panel data, and is `position:
+  sticky` so it stays on screen while scrolling a long overview — see
   `MODULE3_REFERENCE.md`.
+- `src/pages/departures/` — Module 4, Part A's frontend: an RLS-scoped
+  `Departures` list (`DeparturesPage.tsx`) and a record form
+  (`RecordDeparturePage.tsx`) reachable two ways — a "Record departure"
+  link on each active Directory row (deep-links with `?employee_id=`
+  prefilled) or the Departures page's own button, which searches active
+  employees by name/code instead. `REASON_CATEGORIES` in `api/types.ts`
+  is copied verbatim from the backend's taxonomy — same "keep two copies
+  in sync by hand" discipline as `SORTABLE_FIELDS`. The Directory's status
+  filter now defaults to "Active" instead of unfiltered, with an explicit
+  "Separated"/"All statuses" opt-in — see `MODULE4_REFERENCE.md`.
+- `src/pages/workforce-health/ExportControls.tsx` — Module 4, Part B's
+  frontend: "Download HTML"/"Download PDF" buttons on the Workforce
+  Health overview, plus an HR-only business-unit scope picker (a BU Head
+  gets no picker — their export is always their own BU, forced
+  server-side regardless of what this UI would even send). `api/exports.ts`
+  fetches the file as a `Blob` (not JSON, so it doesn't go through
+  `apiRequest()`) and triggers a real browser download via an in-memory
+  object URL — no third-party download library.
 
 ## Known rough edges (honest account, not hidden)
 
@@ -102,6 +121,14 @@ Password for all seeded accounts: `ChangeMe123!`
   summary's hotspot list and per-employee drill-down, matching Module 2's
   own shipped scope (no full paginated table there either). A future
   session could add one using `useEmployeeDirectory.ts`'s pattern.
+- **Exports don't include Module 3's demonstration dataset.** A
+  deliberate Module 4 scope decision, not an oversight: the export's
+  data story is Module 1/2's real employee records and the transparent
+  scorecard only, so there's no risk of the "demonstration dataset"
+  labeling requirement (`MODULE4_REFERENCE.md`) ever silently failing to
+  carry through a future change to the export template. A future
+  session adding Module 3 content to an export should give it its own
+  equally prominent, independently verified demo-dataset treatment.
 
 ## Tests
 
@@ -133,3 +160,20 @@ Head, the same overview correctly scoped to one business unit, and —
 the adversarial check — navigating directly to an HR-visible employee's
 `/risk-analysis/employees/{id}` URL, which resolved to a clean "Employee
 not found" rather than leaking cross-BU data.
+
+Module 4's frontend was verified the same way: as HR, recording a real
+departure from a Directory row (prefilled), confirming it appears on
+`/departures`, disappears from the default Directory, and reappears
+under the "Separated" filter; as a BU Head, confirming the Departures
+nav item is present but Fairness Audit is not, and that navigating
+directly to `/departures/new?employee_id=<another BU's id>` resolves to
+"Employee not found" rather than letting the form load. The export
+buttons were verified end to end with Playwright's real download
+handling (not just checking the HTTP response): an HR org-wide HTML
+download and a Data-Quark-scoped PDF download, and a BU Head's HTML
+download — each downloaded file was then opened and inspected (see
+`../backend/README.md`'s "PDF export" and Module 4's commit history for
+the CORS `expose_headers` bug this caught: without it, every export
+downloaded under a generic filename instead of the server's real one,
+since `Content-Disposition` isn't in the browser's default CORS-exposed
+header set for a cross-origin fetch).
