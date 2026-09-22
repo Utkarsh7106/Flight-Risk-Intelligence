@@ -22,7 +22,6 @@ Part 1 commit message for the full reasoning.
 from __future__ import annotations
 
 import datetime as dt
-import statistics
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -45,8 +44,14 @@ from app.schemas.workforce_health import (
     RecommendationOut,
     WorkforceHealthSummary,
 )
+from app.scoring.employee_scoring import (
+    fetch_active_employees,
+    peer_ctc_by_grade,
+    peer_median_and_size,
+    to_scoring_inputs,
+)
 from app.scoring.fairness_audit import EmployeeScoreForAudit, build_fairness_audit
-from app.scoring.model import ScoringInputs, score_employee
+from app.scoring.model import score_employee
 from app.scoring.recommendations import recommend
 from app.security.deps import get_current_user, require_hr
 
@@ -63,11 +68,6 @@ def _with_relations(stmt):
     )
 
 
-def _fetch_active_employees(db: Session) -> list[Employee]:
-    stmt = _with_relations(select(Employee).where(Employee.employment_status == "active"))
-    return list(db.scalars(stmt).all())
-
-
 def _get_employee_or_404(db: Session, employee_id: int) -> Employee:
     stmt = _with_relations(select(Employee).where(Employee.id == employee_id))
     employee = db.scalar(stmt)
@@ -76,59 +76,22 @@ def _get_employee_or_404(db: Session, employee_id: int) -> Employee:
     return employee
 
 
-def _peer_ctc_by_grade(employees: list[Employee]) -> dict[str, list[tuple[int, float]]]:
-    by_grade: dict[str, list[tuple[int, float]]] = {}
-    for e in employees:
-        if e.ctc_annual is not None:
-            by_grade.setdefault(e.grade, []).append((e.id, float(e.ctc_annual)))
-    return by_grade
-
-
-def _peer_median_and_size(employee: Employee, by_grade: dict[str, list[tuple[int, float]]]) -> tuple[float | None, int]:
-    peers = [ctc for eid, ctc in by_grade.get(employee.grade, []) if eid != employee.id]
-    if not peers:
-        return None, 0
-    return statistics.median(peers), len(peers)
-
-
-def _to_scoring_inputs(
-    employee: Employee, peer_median: float | None, peer_size: int, as_of: dt.date
-) -> ScoringInputs:
-    return ScoringInputs(
-        as_of=as_of,
-        date_of_joining=employee.date_of_joining,
-        grade=employee.grade,
-        last_promotion_date=employee.last_promotion_date,
-        last_increment_date=employee.last_increment_date,
-        ctc_annual=float(employee.ctc_annual) if employee.ctc_annual is not None else None,
-        peer_median_ctc_at_grade=peer_median,
-        peer_group_size=peer_size,
-        performance_rating=float(employee.performance_rating) if employee.performance_rating is not None else None,
-        engagement_score=float(employee.engagement_score) if employee.engagement_score is not None else None,
-        manager_effectiveness_score=(
-            float(employee.manager_effectiveness_score)
-            if employee.manager_effectiveness_score is not None
-            else None
-        ),
-    )
-
-
 @router.get("/summary", response_model=WorkforceHealthSummary)
 def get_summary(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(get_current_user)],
 ) -> WorkforceHealthSummary:
-    employees = _fetch_active_employees(db)
+    employees = fetch_active_employees(db)
     if not employees:
         empty_bands = BandCounts(low=0, medium=0, high=0, critical=0)
         return WorkforceHealthSummary(
             employee_count=0, average_score=0.0, band_counts=empty_bands, business_units=[], hotspots=[]
         )
 
-    by_grade = _peer_ctc_by_grade(employees)
+    by_grade = peer_ctc_by_grade(employees)
     as_of = dt.date.today()
     scored = [
-        (e, score_employee(_to_scoring_inputs(e, *_peer_median_and_size(e, by_grade), as_of)))
+        (e, score_employee(to_scoring_inputs(e, *peer_median_and_size(e, by_grade), as_of)))
         for e in employees
     ]
 
@@ -185,10 +148,10 @@ def get_employee_score(
     current_user: Annotated[AppUser, Depends(get_current_user)],
 ) -> EmployeeScoreOut:
     employee = _get_employee_or_404(db, employee_id)
-    peers = _fetch_active_employees(db)
-    by_grade = _peer_ctc_by_grade(peers)
-    peer_median, peer_size = _peer_median_and_size(employee, by_grade)
-    inputs = _to_scoring_inputs(employee, peer_median, peer_size, dt.date.today())
+    peers = fetch_active_employees(db)
+    by_grade = peer_ctc_by_grade(peers)
+    peer_median, peer_size = peer_median_and_size(employee, by_grade)
+    inputs = to_scoring_inputs(employee, peer_median, peer_size, dt.date.today())
     result = score_employee(inputs)
     recommendations = recommend(result)
 
@@ -214,14 +177,14 @@ def get_fairness_audit(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[AppUser, Depends(require_hr)],
 ) -> FairnessAuditOut:
-    employees = _fetch_active_employees(db)
-    by_grade = _peer_ctc_by_grade(employees)
+    employees = fetch_active_employees(db)
+    by_grade = peer_ctc_by_grade(employees)
     as_of = dt.date.today()
 
     audit_inputs = []
     for employee in employees:
-        peer_median, peer_size = _peer_median_and_size(employee, by_grade)
-        inputs = _to_scoring_inputs(employee, peer_median, peer_size, as_of)
+        peer_median, peer_size = peer_median_and_size(employee, by_grade)
+        inputs = to_scoring_inputs(employee, peer_median, peer_size, as_of)
         result = score_employee(inputs)
         audit_inputs.append(
             EmployeeScoreForAudit(

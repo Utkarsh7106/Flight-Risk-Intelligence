@@ -8,6 +8,7 @@ FastAPI + PostgreSQL. See `../ARCHITECTURE.md` for the full picture.
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+playwright install chromium   # Module 4's PDF export — see "PDF export" below
 
 # One-time, as a Postgres superuser: create the database and the two roles
 # the RLS design depends on (see db/roles.sql for what/why).
@@ -81,6 +82,23 @@ and RLS isolation on `/risk-analysis/*` (mirroring the directory/
 workforce-health tests), including that `employment_status='separated'`
 rows (labeled training examples) 404 for every role, HR included.
 
+Module 4 (departure capture + exports): the write path on
+`POST /departure-events` (not just reads — a real 409 on double-recording,
+422 on a pre-joining departure_date and on a reason_category that doesn't
+match its departure_type), that the `mark_employee_separated` trigger
+actually flips `employee.employment_status`, that a newly-separated
+employee is excluded from the default directory/Workforce Health views
+but reachable via `?employment_status=separated`/`all`, RLS isolation on
+`/departure-events` (HR sees every BU, a BU Head only their own, and can
+record a departure only for their own BU's employees — an honest 404 for
+anyone else's, same as every other cross-BU lookup in this app), and on
+`/exports/workforce-health`: correct data scoping in the *generated
+report content itself* (not just a 200 status) for both an org-wide and
+a single-BU export, that a BU Head's export is forced to their own BU
+even if a different `business_unit_id` is requested, that no fairness-
+audit content ever appears in an export, and a real (not mocked)
+Chromium-rendered PDF via `format=pdf`.
+
 ## Module 3's offline pipeline
 
 The synthetic dataset and trained model aren't built by the test suite
@@ -100,3 +118,21 @@ readout. Re-running either is safe (both are idempotent/deterministic
 under a fixed seed) and required after almost any change to
 `app/synthetic/`. See `MODULE3_REFERENCE.md` for what these numbers mean
 and why the label is generated the way it is.
+
+## PDF export
+
+`GET /exports/workforce-health?format=pdf` (Module 4) renders the exact
+same self-contained HTML template `format=html` returns
+(`app/exports/workforce_health_report.py`) through a real, headless
+Chromium (`app/exports/pdf.py`), so the two formats can't visually drift
+apart. This makes `playwright` a genuine **runtime** dependency of the
+live API — unlike Module 3's offline-only ML libs, the PDF is generated
+per live, RLS-scoped request, so it can't be precomputed — and it needs
+its own browser binary: `playwright install chromium` once after
+`pip install -r requirements.txt` (see "Local setup" above). A deployed
+build (Render/Railway, per `ARCHITECTURE.md`) needs this same install
+step wired into its build process; those hosts aren't behind a
+restrictive proxy the way this project's dev sandbox sometimes is, so the
+plain command works there. Never set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`
+(`.env.example`) on a deployed build — it exists only for a dev sandbox
+with a nonstandard pre-installed Chromium path; see `app/config.py`.

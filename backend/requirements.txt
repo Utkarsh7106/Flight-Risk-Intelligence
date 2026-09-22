@@ -17,3 +17,11 @@ email-validator==2.3.0
 pyjwt==2.14.0
 bcrypt==5.0.0
 python-multipart==0.0.32
+
+# PDF export (Module 4) — headless Chromium prints the same self-contained
+# HTML template the HTML export produces, so the two formats stay visually
+# in sync by construction. Genuinely a runtime dependency (unlike Module
+# 3's offline-only ML libs): the PDF is generated per live, RLS-scoped
+# request, not precomputed. Requires `playwright install chromium` once
+# after `pip install` — see backend/README.md.
+playwright==1.63.0
