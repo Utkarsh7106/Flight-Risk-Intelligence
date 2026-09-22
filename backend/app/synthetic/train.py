@@ -146,7 +146,7 @@ def train_and_evaluate(x: np.ndarray, y: np.ndarray) -> RandomForestClassifier:
     return final_model
 
 
-def score_active_employees(
+def score_active_synthetic_employees(
     model: RandomForestClassifier, x: np.ndarray, rows: list[SyntheticEmployee]
 ) -> list[dict]:
     active_indices = [i for i, r in enumerate(rows) if r.employment_status == "active"]
@@ -211,7 +211,7 @@ def main() -> None:
         print(f"Dataset: {len(rows)} rows, {int(y.sum())} labeled 'left' ({y.mean():.1%})")
 
         model = train_and_evaluate(x, y)
-        updates = score_active_employees(model, x, rows)
+        updates = score_active_synthetic_employees(model, x, rows)
 
         band_counts: dict[str, int] = {}
         for u in updates:
